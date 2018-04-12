@@ -2,6 +2,7 @@
 from threading import Lock
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, disconnect
+import time
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -33,15 +34,25 @@ thread_lock = Lock()
 #          {'data': message['data'], 'count': session['receive_count']})
 
 
+# Caught by middle layer for manipulation
+@socketio.on('SendPacketMiddle')
+def caught_by_middle_layer(message):
+    """
+    Event : Message caught from server frontend 
+    Task  : Manipulate data & forward to receiver end
+    """
+    time.sleep(.3);
+    emit('ReceivePacketMiddle', {'data': message['data']})
+    time.sleep(.2);
+
 # Message to be sent to Receiver
 @socketio.on('SendPacket')
 def send_to_receiver(message):
     """
-    Event : Message received from server frontend 
+    Event : Message received from server middle layer 
     Task  : Forward the message to receiver end
     """
     emit('ReceivePacket', {'data': message['data']})
-
 
 # continous pings
 @socketio.on('HeyPing')

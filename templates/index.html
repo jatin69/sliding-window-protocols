@@ -63,16 +63,22 @@
 
             // =========================================== Transmission ==========================================
 
-            // emitting the data of text box
+            // Sending data from server to receiver
             $('form#SenderEmit').submit(function (event) {
                 message_from_server = $('#SenderEmitData').val();
                 $('#SenderLogs').append('<br>' + $('<div/>').text(message_from_server).html());
-                socket.emit('SendPacket', { data: message_from_server });
+                socket.emit('SendPacketMiddle', { data: message_from_server });
                 return false;
             });
 
             socket.on('ReceivePacket', function (message_from_server) {
                 $('#ReceiverLogs').append('<br>' + $('<div/>').text(message_from_server['data']).html());
+                return false;
+            })
+
+            socket.on('ReceivePacketMiddle', function (message_from_server) {
+                $('#MiddleLogs').append('<br>' + $('<div/>').text(message_from_server['data']).html());
+                socket.emit('SendPacket', { data: message_from_server['data'] });
                 return false;
             })
 
@@ -83,11 +89,19 @@
 
             $('form#SenderDisconnect').submit(function (event) {
                 socket.emit('disconnect_request', { data: 'sender ' });
+                $('#SenderDisconnectBtn').attr('disabled', true);
+                $('#ReceiverDisconnectBtn').attr('disabled', true);
+                $('#SenderEmitDataBtn').attr('disabled', true);
+                $("#SenderEmitData").attr("disabled", true);
                 return false;
             });
 
             $('form#ReceiverDisconnect').submit(function (event) {
                 socket.emit('disconnect_request', { data: 'receiver ' });
+                $('#SenderDisconnectBtn').attr('disabled', true);
+                $('#ReceiverDisconnectBtn').attr('disabled', true);
+                $('#SenderEmitDataBtn').attr('disabled', true);
+                $("#SenderEmitData").attr("disabled", true);
                 return false;
             });
 
@@ -112,27 +126,34 @@
         <div class="row">
 
             <!-- sender -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <h2>Sender </h2>
 
                 <form id="SenderEmit" method="POST" action='#'>
                     <input type="text" name="emit_data" id="SenderEmitData" placeholder="Message">
-                    <input type="submit" value="Echo">
+                    <input type="submit" id="SenderEmitDataBtn" value="Echo">
                 </form>
 
                 <form id="SenderDisconnect" method="POST" action="#">
-                    <input type="submit" value="Disconnect">
+                    <input type="submit" id="SenderDisconnectBtn" value="Disconnect">
                 </form>
 
                 <h2>Sender Logs:</h2>
                 <div id="SenderLogs"></div>
             </div>
 
+            <!-- Middle layer -->
+            <div class="col-lg-4">
+                <h2>Transmission Medium </h2>
+                <!-- <h2></h2> -->
+                <div id="MiddleLogs"></div>
+            </div>
+
             <!-- receiver -->
-            <div class="col-lg-6">
+            <div class="col-lg-4">
                 <h2>Receiver </h2>
                 <form id="ReceiverDisconnect" method="POST" action="#">
-                    <input type="submit" value="Disconnect">
+                    <input type="submit" id="ReceiverDisconnectBtn" value="Disconnect">
                 </form>
                 <h2>Receiver Logs:</h2>
                 <div id="ReceiverLogs"></div>
