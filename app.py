@@ -1,8 +1,7 @@
 #!/usr/bin/env python
 from threading import Lock
 from flask import Flask, render_template, session, request
-from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
-    close_room, rooms, disconnect
+from flask_socketio import SocketIO, emit, disconnect
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -16,84 +15,89 @@ thread = None
 thread_lock = Lock()
 
 
-def background_thread():
-    """Example of how to send server generated events to clients."""
-    count = 0
-    while True:
-        socketio.sleep(10)
-        count += 1
-        socketio.emit('my_response',
-                      {'data': 'Server generated event', 'count': count},
-                       namespace='/StopAndWait')
+# def background_thread():
+#     """Example of how to send server generated events to clients."""
+#     count = 0
+#     while True:
+#         socketio.sleep(10)
+#         count += 1
+#         socketio.emit('my_response',
+#                       {'data': 'Server generated event', 'count': count})
 
 
+
+# @socketio.on('my_event')
+# def test_message(message):
+#     session['receive_count'] = session.get('receive_count', 0) + 1
+#     emit('my_response',
+#          {'data': message['data'], 'count': session['receive_count']})
+
+
+# Message to be sent to Receiver
+@socketio.on('SendPacket')
+def send_to_receiver(message):
+    """
+    Event : Message received from server frontend 
+    Task  : Forward the message to receiver end
+    """
+    emit('ReceivePacket', {'data': message['data']})
+
+
+# continous pings
+@socketio.on('HeyPing')
+def ping_pong():
+    """
+    Event : ping 
+    Task  : pong
+    """
+    emit('HeyPong')
+
+
+# Server index.html
 @app.route('/')
 def index():
+    """
+    Event : User navigates to "localhost:5000" in a new tab
+    Task  : Server the "templates/index.html" page to user
+    """
     return render_template('index.html', async_mode=socketio.async_mode)
 
 
-class SenderNamespace(Namespace):
-    def on_my_event(self, message):
-        session['receive_count'] = session.get('receive_count', 0) + 1
-        emit('my_response',
-             {'data': message['data'], 'count': session['receive_count']})
+# Accepting connection from client
+@socketio.on('connect')
+def complete_connection():   
+    """
+    Event : Accept the connection from client (predefined)
+    Task  : To complete the connection to this client
+    """
+    emit('complete_connection', {'data': 'Hi Receiver!'})
 
 
-    def on_disconnect_request(self):
-        session['receive_count'] = session.get('receive_count', 0) + 1
-        emit('my_response',
-             {'data': 'Disconnected!', 'count': session['receive_count']})
-        disconnect()
+# Requesting termination of connection
+@socketio.on('disconnect_request')
+def disconnect_request(message):
+    """
+    Event : User requested connection termination
+    Task  : Tie the loose ends, the call the disconnect() event
+    """
+    emit('disconnecting_confirmation', {'data': message['data'] + 'Disconnected!'})
+    disconnect()
 
 
-    def on_my_ping(self):
-        emit('my_pong')
-    
-    def on_handshake(self):
-        emit('accept_handshake')
-
-    def on_connect(self):
-        global thread
-        with thread_lock:
-            if thread is None:
-                thread = socketio.start_background_task(
-                    target=background_thread)
-        emit('my_response', {'data': 'Connected', 'count': 0})
-
-    def on_disconnect(self):
-        print('Client disconnected', request.sid)
+# Server disconnected
+@socketio.on('disconnect')
+def test_disconnect():
+    """
+    Event  : Disconnect the server from client (predefined)
+    Task   : Receiver Disconnected
+    """
+    print('Receiver disconnected', request.sid)
 
 
-socketio.on_namespace(SenderNamespace('/SenderNamespace'))
-
-class ReceiverNamespace(Namespace):
-    def on_my_event(self, message):
-        session['receive_count'] = session.get('receive_count', 0) + 1
-        emit('my_response',
-             {'data': message['data'], 'count': session['receive_count']})
-
-    
-    def on_disconnect_request(self):
-        session['receive_count'] = session.get('receive_count', 0) + 1
-        emit('my_response',
-             {'data': 'Disconnected!', 'count': session['receive_count']})
-        disconnect()
-
-    def on_my_ping(self):
-        emit('my_pong')
-
-    def on_connect(self):
-        global thread
-        with thread_lock:
-            if thread is None:
-                thread = socketio.start_background_task(
-                    target=background_thread)
-        emit('my_response', {'data': 'Connected', 'count': 0})
-
-    def on_disconnect(self):
-        print('Client disconnected', request.sid)
-
-socketio.on_namespace(ReceiverNamespace('/ReceiverNamespace'))
-
+# Start the app : dev mode 
 if __name__ == '__main__':
+    """
+    Event : Start the server
+    Task  : Keep the server running, debugging ON in dev mode
+    """
     socketio.run(app, debug=True)
