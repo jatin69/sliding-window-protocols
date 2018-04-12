@@ -7,35 +7,37 @@
     <script type="text/javascript" src="./../static/socket.io/1.3.5/socket.io.min.js"></script>
     <script type="text/javascript" src="./../static/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+
     <!-- sender -->
     <script type="text/javascript" charset="utf-8">
         $(document).ready(function () {
-            // Use a "/test" namespace.
+
             // An application can open a connection on multiple namespaces, and
             // Socket.IO will multiplex all those connections on a single
             // physical channel. If you don't care about multiple channels, you
             // can set the namespace to an empty string.
-            sendernamespace = '/SenderNamespace';
+            Snamespace = '/SenderNamespace';
 
-            // Connect to the Socket.IO server.
+            // Make a Sender socket and Connect it to the Socket.IO server.
             // The connection URL has the following format:
             //     http[s]://<domain>:<port>[/<namespace>]
-            var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + sendernamespace);
-            
+            var Ssocket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + Snamespace);
+
             // Event handler for new connections.
             // The callback function is invoked when a connection with the
             // server is established.
-            socket.on('connect', function () {
-                socket.emit('my_event', { data: 'I\'m connected!' });
+            Ssocket.on('connect', function () {
+                $('#Slog').append('<br>' + $('<div/>').text('Hi Receiver!').html());
+                Ssocket.emit('initiate_handshake', { data: 'Hi Receiver!' });
             });
 
             // Event handler for server sent data.
             // The callback function is invoked whenever the server emits data
             // to the client. The data is then displayed in the "Received"
             // section of the page.
-            socket.on('my_response', function (msg) {
+            Ssocket.on('my_response', function (msg) {
                 console.log("received");
-                $('#Senderlog').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+                $('#Slog').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
             });
 
             // Interval function that tests message latency by sending a "ping"
@@ -45,13 +47,13 @@
             var start_time;
             window.setInterval(function () {
                 start_time = (new Date).getTime();
-                socket.emit('my_ping');
+                Ssocket.emit('my_ping');
             }, 1000);
 
             // Handler for the "pong" message. When the pong is received, the
             // time from the ping is stored, and the average of the last 30
             // samples is average and displayed.
-            socket.on('my_pong', function () {
+            Ssocket.on('my_pong', function () {
                 var latency = (new Date).getTime() - start_time;
                 ping_pong_times.push(latency);
                 ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
@@ -64,16 +66,16 @@
             // Handlers for the different forms in the page.
             // These accept data from the user and send it to the server in a
             // variety of ways
-            $('form#emit').submit(function (event) {
-                socket.emit('my_event', { data: $('#emit_data').val() });
+            $('form#Semit').submit(function (event) {
+                Ssocket.emit('my_event', { data: $('#Semit_data').val() });
                 return false;
             });
             // $('form#send_room').submit(function (event) {
             //     socket.emit('my_room_event', { room: $('#room_name').val(), data: $('#room_data').val() });
             //     return false;
             // });
-            $('form#disconnect').submit(function (event) {
-                socket.emit('disconnect_request');
+            $('form#Sdisconnect').submit(function (event) {
+                Ssocket.emit('disconnect_request');
                 return false;
             });
         });
@@ -87,65 +89,69 @@
             // Socket.IO will multiplex all those connections on a single
             // physical channel. If you don't care about multiple channels, you
             // can set the namespace to an empty string.
-            receivernamespace = '/ReceiverNamespace';
+            Rnamespace = '/ReceiverNamespace';
 
             // Connect to the Socket.IO server.
             // The connection URL has the following format:
             //     http[s]://<domain>:<port>[/<namespace>]
-            var socket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + receivernamespace);
-            
+            var Rsocket = io.connect(location.protocol + '//' + document.domain + ':' + location.port + Rnamespace);
+
             // Event handler for new connections.
             // The callback function is invoked when a connection with the
             // server is established.
-            socket.on('connect', function () {
-                socket.emit('my_event', { data: 'I\'m connected!' });
-            });
+            // Rsocket.on('connect', function () {
+            //     Rsocket.emit('handshake', { data: 'Hi Sender!' });
+            //     $('#Rlog').append('<br>' + $('<div/>').text('Hi Sender!').html());
+            // });
 
+            Rsocket.on('accept_handshake', function () {
+                $('#Rlog').append('<br>' + $('<div/>').text('Hi Sender!').html());
+            })
             // Event handler for server sent data.
             // The callback function is invoked whenever the server emits data
             // to the client. The data is then displayed in the "Received"
             // section of the page.
-            socket.on('my_response', function (msg) {
+            Rsocket.on('my_response', function (msg) {
                 console.log("received");
-                $('#Receiverlog').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
+                $('#Rlog').append('<br>' + $('<div/>').text('Received #' + msg.count + ': ' + msg.data).html());
             });
 
             // Interval function that tests message latency by sending a "ping"
             // message. The server then responds with a "pong" message and the
             // round trip time is measured.
-            var ping_pong_times = [];
-            var start_time;
+            var Rping_pong_times = [];
+            var Rstart_time;
             window.setInterval(function () {
-                start_time = (new Date).getTime();
-                socket.emit('my_ping');
+                Rstart_time = (new Date).getTime();
+                Rsocket.emit('Rping');
             }, 1000);
 
             // Handler for the "pong" message. When the pong is received, the
             // time from the ping is stored, and the average of the last 30
             // samples is average and displayed.
-            socket.on('my_pong', function () {
-                var latency = (new Date).getTime() - start_time;
-                ping_pong_times.push(latency);
-                ping_pong_times = ping_pong_times.slice(-30); // keep last 30 samples
-                var sum = 0;
-                for (var i = 0; i < ping_pong_times.length; i++)
-                    sum += ping_pong_times[i];
-                $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
+            Rsocket.on('Rping', function () {
+                var Rlatency = (new Date).getTime() - Rstart_time;
+                Rping_pong_times.push(latency);
+                Rping_pong_times = Rping_pong_times.slice(-30); // keep last 30 samples
+                var Rsum = 0;
+                for (var i = 0; i < Rping_pong_times.length; i++)
+                    Rsum += Rping_pong_times[i];
+                $('#Rping-pong').text(Math.round(10 * Rsum / Rping_pong_times.length) / 10);
             });
 
-            // Handlers for the different forms in the page.
-            // These accept data from the user and send it to the server in a
-            // variety of ways
-            $('form#emit').submit(function (event) {
-                socket.emit('my_event', { data: $('#emit_data').val() });
-                return false;
-            });
+            // // Handlers for the different forms in the page.
+            // // These accept data from the user and send it to the server in a
+            // // variety of ways
+            // $('form#emit').submit(function (event) {
+            //     socket.emit('my_event', { data: $('#emit_data').val() });
+            //     return false;
+            // });
             // $('form#send_room').submit(function (event) {
             //     socket.emit('my_room_event', { room: $('#room_name').val(), data: $('#room_data').val() });
             //     return false;
             // });
-            $('form#disconnect').submit(function (event) {
-                socket.emit('disconnect_request');
+            $('form#Rdisconnect').submit(function (event) {
+                Rsocket.emit('disconnect_request');
                 return false;
             });
         });
@@ -154,42 +160,42 @@
 
 <body>
     <div class="container">
-            <h1>Networks</h1>
-            <h2>Stop and Wait Protocol</h2>
-            <p>Async mode is:
-                <b>{{ async_mode }}</b>
-            </p>
-            <p>Average ping/pong latency:
-                <b>
-                    <span id="ping-pong"></span>ms</b>
-            </p>
-            
-            <div class="row">
+        <h1>Networks</h1>
+        <h2>Stop and Wait Protocol</h2>
+        <p>Async mode is:
+            <b>{{ async_mode }}</b>
+        </p>
+        <p>Average ping/pong latency:
+            <b>
+                <span id="ping-pong"></span>ms</b>
+        </p>
 
-                <!-- sender -->
-                <div class="col-lg-6">
-                    <h2>Sender </h2>
-                    <form id="emit" method="POST" action='#'>
-                        <input type="text" name="emit_data" id="emit_data" placeholder="Message">
-                        <input type="submit" value="Echo">
-                    </form>
-                    <form id="disconnect" method="POST" action="#">
-                        <input type="submit" value="Disconnect">
-                    </form>
-                    <h2>Logs:</h2>
-                    <div id="Senderlog"></div>
-                </div>
+        <div class="row">
 
-                <!-- receiver -->
-                <div class="col-lg-6">
-                    <h2>Receiver </h2>
-                    <form id="disconnect" method="POST" action="#">
-                        <input type="submit" value="Disconnect">
-                    </form>
-                    <h2>Logs:</h2>
-                    <div id="Receiverlog"></div>
-                </div>
-            </div>        
+            <!-- sender -->
+            <div class="col-lg-6">
+                <h2>Sender </h2>
+                <form id="Semit" method="POST" action='#'>
+                    <input type="text" name="emit_data" id="Semit_data" placeholder="Message">
+                    <input type="submit" value="Echo">
+                </form>
+                <form id="Sdisconnect" method="POST" action="#">
+                    <input type="submit" value="Disconnect">
+                </form>
+                <h2>Logs:</h2>
+                <div id="Slog"></div>
+            </div>
+
+            <!-- receiver -->
+            <div class="col-lg-6">
+                <h2>Receiver </h2>
+                <form id="Rdisconnect" method="POST" action="#">
+                    <input type="submit" value="Disconnect">
+                </form>
+                <h2>Receiver Logs:</h2>
+                <div id="Rlog"></div>
+            </div>
+        </div>
     </div>
 </body>
 

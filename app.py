@@ -41,12 +41,16 @@ class SenderNamespace(Namespace):
 
     def on_disconnect_request(self):
         session['receive_count'] = session.get('receive_count', 0) + 1
-        emit('my_response',{'data': 'Disconnected!', 'count': session['receive_count']})
+        emit('my_response',
+             {'data': 'Disconnected!', 'count': session['receive_count']})
         disconnect()
 
 
     def on_my_ping(self):
         emit('my_pong')
+    
+    def on_handshake(self):
+        emit('accept_handshake')
 
     def on_connect(self):
         global thread
