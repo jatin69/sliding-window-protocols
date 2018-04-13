@@ -112,54 +112,64 @@
 </head>
 
 <body>
+    <!-- Page Container -->
     <div class="container">
-        <h1>Networks</h1>
-        <h2>Stop and Wait Protocol</h2>
-        <p>Async mode is:
-            <b>{{ async_mode }}</b>
-        </p>
-        <p>Average ping/pong latency:
-            <b>
-                <span id="ping-pong"></span>ms</b>
-        </p>
+        
+        <!-- Heading row -->
+        <div class="row">
+            <h1>Networks</h1>
+            <h2>Stop and Wait Protocol</h2>
+            <p>
+                Async mode is: <b>{{ async_mode }}</b>
+                Average ping/pong latency:<b><span id="ping-pong"></span>ms</b>
+            </p>
+        </div>
+        <br>
 
+        <!-- Work Row -->
         <div class="row">
 
             <!-- sender -->
             <div class="col-lg-4">
                 <h2>Sender </h2>
 
+                <!-- Sender send data button -->
                 <form id="SenderEmit" method="POST" action='#'>
                     <input type="text" name="emit_data" id="SenderEmitData" placeholder="Message">
-                    <input type="submit" id="SenderEmitDataBtn" value="Echo">
+                    <input type="submit" id="SenderEmitDataBtn" value="SEND">
                 </form>
 
+                <!-- Sender Disconnect button -->
                 <form id="SenderDisconnect" method="POST" action="#">
                     <input type="submit" id="SenderDisconnectBtn" value="Disconnect">
                 </form>
 
+                <!-- Sender Logs -->
                 <h2>Sender Logs:</h2>
                 <div id="SenderLogs"></div>
             </div>
 
             <!-- Middle layer -->
             <div class="col-lg-4">
+                <!-- Middle layer logs - dropped, forwarded -->
                 <h2>Transmission Medium </h2>
-                <!-- <h2></h2> -->
                 <div id="MiddleLogs"></div>
             </div>
 
             <!-- receiver -->
             <div class="col-lg-4">
                 <h2>Receiver </h2>
+
+                <!-- Receiver Disconnect button -->
                 <form id="ReceiverDisconnect" method="POST" action="#">
                     <input type="submit" id="ReceiverDisconnectBtn" value="Disconnect">
                 </form>
+
+                <!-- Receiver Logs -->
                 <h2>Receiver Logs:</h2>
                 <div id="ReceiverLogs"></div>
             </div>
         </div>
     </div>
 </body>
-
 </html>

@@ -15,3 +15,12 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 - threaded timer
 - packet and Ack numbers
 - a lot of events and a lot of time
+
+## Approach
+
+Flow of packets follow
+1. server frontend
+2. middlelayer backend
+3. middle layer frontend
+4. receiver backend
+5. receiver frontend

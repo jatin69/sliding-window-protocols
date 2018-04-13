@@ -26,7 +26,6 @@ thread_lock = Lock()
 #                       {'data': 'Server generated event', 'count': count})
 
 
-
 # @socketio.on('my_event')
 # def test_message(message):
 #     session['receive_count'] = session.get('receive_count', 0) + 1
@@ -41,9 +40,10 @@ def caught_by_middle_layer(message):
     Event : Message caught from server frontend 
     Task  : Manipulate data & forward to receiver end
     """
-    time.sleep(.3);
+    time.sleep(.3)
     emit('ReceivePacketMiddle', {'data': message['data']})
-    time.sleep(.2);
+    time.sleep(.2)
+
 
 # Message to be sent to Receiver
 @socketio.on('SendPacket')
@@ -53,6 +53,7 @@ def send_to_receiver(message):
     Task  : Forward the message to receiver end
     """
     emit('ReceivePacket', {'data': message['data']})
+
 
 # continous pings
 @socketio.on('HeyPing')
@@ -76,7 +77,7 @@ def index():
 
 # Accepting connection from client
 @socketio.on('connect')
-def complete_connection():   
+def complete_connection():
     """
     Event : Accept the connection from client (predefined)
     Task  : To complete the connection to this client
@@ -91,7 +92,8 @@ def disconnect_request(message):
     Event : User requested connection termination
     Task  : Tie the loose ends, the call the disconnect() event
     """
-    emit('disconnecting_confirmation', {'data': message['data'] + 'Disconnected!'})
+    emit('disconnecting_confirmation', {
+         'data': message['data'] + 'Disconnected!'})
     disconnect()
 
 
@@ -105,7 +107,7 @@ def test_disconnect():
     print('Receiver disconnected', request.sid)
 
 
-# Start the app : dev mode 
+# Start the app : dev mode
 if __name__ == '__main__':
     """
     Event : Start the server
