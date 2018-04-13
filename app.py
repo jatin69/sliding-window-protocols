@@ -3,6 +3,7 @@ from threading import Lock
 from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, disconnect
 import time
+import random
 
 # Set this variable to "threading", "eventlet" or "gevent" to test the
 # different async modes, or leave it set to None for the application to choose
@@ -34,35 +35,36 @@ thread_lock = Lock()
 
 
 # Caught by middle layer for manipulation
-@socketio.on('SendPacketMiddle')
-def caught_by_middle_layer(message):
+@socketio.on('SendPacketToMiddleLayerBackend')
+def packet_at_middle_layer(message):
     """
     Event : Message caught from server frontend 
-    Task  : Manipulate data & forward to receiver end
+    Task  : Manipulate data and send to middle layer frontend
     """
     time.sleep(.1)
-    emit('ReceivePacketMiddle', {'data': message['data']})
+    emit('SendPacketToMiddleLayerFrontend', {'data': message['data']})
     time.sleep(.2)
 
 
 # Message to be sent to Receiver
-@socketio.on('SendPacket')
-def send_to_receiver(message):
+@socketio.on('sendPacketToReceiverBackend')
+def packet_at_receiver_backend(message):
     """
     Event : Message received from server middle layer 
     Task  : Forward the message to receiver end
     """
-    emit('ReceivePacket', {'data': message['data']})
-
-@socketio.on('SendingAck')
-def receiving_ack(message):
-    emit('AckReceived', { 'data': message['data']})
+    emit('sendPacketToReceiverFrontend', {'data': message['data']})
 
 
-@socketio.on('SendingAckMiddle')
-def receiving_ack_Medium(message):
+@socketio.on('sendAckToSenderBackend')
+def ack_at_sender_backend(message):
+    emit('sendAckToSenderFrontend', {'data': message['data']})
+
+
+@socketio.on('sendAckToMiddleLayerBackend')
+def ack_at_middle_layer_backend(message):
     time.sleep(.1)
-    emit('AckReceivedMedium', { 'data': message['data']})
+    emit('sendAckToMiddleLayerFrontend', {'data': message['data']})
     time.sleep(.2)
 
 

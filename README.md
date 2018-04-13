@@ -2,6 +2,11 @@
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
 
+## todo urgent
+- refactor done
+- proper long comments
+- include medium in handshake
+
 ## TODO - Stop and Wait
 
 - make packets and acknowledgement
@@ -17,11 +22,19 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 - a lot of events and a lot of time
 - status in table format - scrollable
 
-## Approach
+## Transmission Flow
 
-Flow of packets follow
-1. server frontend
-2. middlelayer backend
-3. middle layer frontend
-4. receiver backend
-5. receiver frontend
+0. Hi sender & Hi receiver - both connected
+1. Packet forms at senderFrontend
+
+2. SendPacketToMiddleLayerBackend
+3. SendPacketToMiddleLayerFrontend
+
+4. SendPacketToReceiverBackend
+5. sendPacketToReceiverFrontend
+
+6. sendAckToMiddleLayerBackend
+7. sendAckToMiddleLayerFrontend
+
+8. sendAckToSenderBackend
+9. sendAckToSenderFrontend
