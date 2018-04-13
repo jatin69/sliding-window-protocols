@@ -9,7 +9,6 @@
     <script type="text/javascript" src="./../static/socket.io/1.3.5/socket.io.min.js"></script>
     <script type="text/javascript" src="./../static/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
-
     <!-- socket IO -->
     <script type="text/javascript" charset="utf-8">
 
@@ -25,13 +24,13 @@
             socket.on('connect', function () {
                 // make entry in Receiver logs
                 message = 'Hi Sender!';
-                $('#ReceiverLogs').append('<br>' + $('<div/>').text(message).html());
+                $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(message).html());
                 // let server connect complete the connection
             });
 
             // received reply from server - Connection ready
             socket.on('complete_connection', function (message) {
-                $('#SenderLogs').append('<br>' + $('<div/>').text(message.data).html());
+                $('#SenderLogs').append('<br><br>' + $('<div/>').text(message.data).html());
                 // socket.emit('disconnect');
             })
 
@@ -60,31 +59,88 @@
                 $('#ping-pong').text(Math.round(10 * sum / ping_pong_times.length) / 10);
             });
 
+            function getDate(date) {
+                var monthNames = [
+                    "January", "February", "March",
+                    "April", "May", "June", "July",
+                    "August", "September", "October",
+                    "November", "December"
+                ];
+                var date = new Date();
+                var day = date.getDate();
+                var monthIndex = date.getMonth();
+                var year = date.getFullYear();
+
+                return day + ' ' + monthNames[monthIndex] + ' ' + year;
+            }
+
+            function getCurrentDateTime() {
+                var d = new Date();
+                var currTime = d.getHours() + ':'
+                    + d.getMinutes() + ':'
+                    + d.getSeconds() + ':'
+                    + d.getMilliseconds();
+
+                return "Logging Data On : " + getDate() + " at " + currTime + "  ";
+            }
 
             // =========================================== Transmission ==========================================
 
-            // Sending data from server to receiver
+            // ================================ Packet orginiating at Sender Layer ===============================
+            // ======================================= packet at Sender Layer ========================================
             $('form#SenderEmit').submit(function (event) {
                 message_from_server = $('#SenderEmitData').val();
-                $('#SenderLogs').append('<br>' + $('<div/>').text(message_from_server).html());
+                message = "Sending : " + message_from_server;
+                $('#SenderLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message).html());
                 socket.emit('SendPacketMiddle', { data: message_from_server });
+                $('#SenderDisconnectBtn').attr('disabled', true);
+                $('#ReceiverDisconnectBtn').attr('disabled', true);
+                $('#SenderEmitDataBtn').attr('disabled', true);
+                $("#SenderEmitData").attr("disabled", true);
                 return false;
             });
 
-            socket.on('ReceivePacket', function (message_from_server) {
-                $('#ReceiverLogs').append('<br>' + $('<div/>').text(message_from_server['data']).html());
-                return false;
-            })
-
+            // ======================================== packet at Middle Layer =====================================
             socket.on('ReceivePacketMiddle', function (message_from_server) {
-                $('#MiddleLogs').append('<br>' + $('<div/>').text(message_from_server['data']).html());
+                message = "Intercepting : " + message_from_server['data'];
+                $('#MiddleLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message).html());
                 socket.emit('SendPacket', { data: message_from_server['data'] });
                 return false;
             })
 
+            // ======================================== packet at Receiver Layer =====================================
+            socket.on('ReceivePacket', function (message_from_server) {
+                message = "Received : " + message_from_server['data'];
+                ackMessage = "Ack for Packet : " + message_from_server['data'];
+                $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message).html());
+                $('#ReceiverLogs').append('<br>' + $('<div/>').text(getCurrentDateTime() + "Sending : " + ackMessage).html());
+                socket.emit('SendingAckMiddle', { data: ackMessage })
+                return false;
+            })
+
+
+            // ================================ Ack orginiating at Receiver Layer ===============================
+            // ======================================== Ack at Middle Layer =====================================
+            socket.on('AckReceivedMedium', function (message_from_server) {
+                message = "Intercepting : " + message_from_server['data'];
+                $('#MiddleLogs').append('<br>' + $('<div/>').text(getCurrentDateTime() + message).html());
+                socket.emit('SendingAck', { data: message_from_server['data'] });
+            })
+
+
+            // ======================================== packet at Sender Layer =====================================
+            socket.on('AckReceived', function (message_from_server) {
+                message = "Received : " + message_from_server['data'];
+                $('#SenderLogs').append('<br>' + $('<div/>').text(getCurrentDateTime() + message).html());
+                $('#SenderDisconnectBtn').attr('disabled', false);
+                $('#ReceiverDisconnectBtn').attr('disabled', false);
+                $('#SenderEmitDataBtn').attr('disabled', false);
+                $("#SenderEmitData").attr("disabled", false);
+            })
+
             socket.on('disconnecting_confirmation', function (message) {
-                $('#SenderLogs').append('<br>' + $('<div/>').text(message['data']).html());
-                $('#ReceiverLogs').append('<br>' + $('<div/>').text(message['data']).html());
+                $('#SenderLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
+                $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
             })
 
             $('form#SenderDisconnect').submit(function (event) {
@@ -114,62 +170,103 @@
 <body>
     <!-- Page Container -->
     <div class="container">
-        
-        <!-- Heading row -->
+
         <div class="row">
-            <h1>Networks</h1>
-            <h2>Stop and Wait Protocol</h2>
-            <p>
-                Async mode is: <b>{{ async_mode }}</b>
-                Average ping/pong latency:<b><span id="ping-pong"></span>ms</b>
-            </p>
+            <!-- Heading row -->
+            <div class="col-sm-6">
+                <h1 class="text-left">Networks </h1>
+            </div>
+
+            <div class="col-sm-6">
+                <p class="text-right"> Average ping/pong latency:
+                    <span id="ping-pong"></span>ms
+                </p>
+            </div>
         </div>
-        <br>
+        <div class="row">
+            <div class="col-sm-6">
+                <h2 class="text-left">Stop and Wait Protocol</h2>
+            </div>
+            <div class="col-sm-6">
+                <p class="text-right"> ASych Mode: {{ async_mode}}
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <hr>
+        </div>
 
         <!-- Work Row -->
         <div class="row">
-
             <!-- sender -->
-            <div class="col-lg-4">
-                <h2>Sender </h2>
-
-                <!-- Sender send data button -->
-                <form id="SenderEmit" method="POST" action='#'>
-                    <input type="text" name="emit_data" id="SenderEmitData" placeholder="Message">
-                    <input type="submit" id="SenderEmitDataBtn" value="SEND">
-                </form>
-
-                <!-- Sender Disconnect button -->
-                <form id="SenderDisconnect" method="POST" action="#">
-                    <input type="submit" id="SenderDisconnectBtn" value="Disconnect">
-                </form>
-
+            <div class="col-sm-4">
+                <h2 class="text-left">Sender</h2>
+                <div class="row">
+                    <!-- Sender send data button -->
+                    <form id="SenderEmit" method="POST" action='#'>
+                        <input type="text" style="width: 8em" name="emit_data" id="SenderEmitData" placeholder="Message">
+                        <input type="submit" id="SenderEmitDataBtn" value="SEND">
+                    </form>
+                    <!-- Sender Disconnect button -->
+                    <form id="SenderDisconnect" method="POST" action="#">
+                        <input type="submit" id="SenderDisconnectBtn" value="Disconnect">
+                    </form>
+                </div>
+                <br>
                 <!-- Sender Logs -->
-                <h2>Sender Logs:</h2>
-                <div id="SenderLogs"></div>
+                <div class="row">
+                    <h2>Sender Logs:</h2>
+                    <div class="col-sm-12">
+                        <div id="SenderLogs">
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- Middle layer -->
-            <div class="col-lg-4">
+            <div class="col-sm-4">
                 <!-- Middle layer logs - dropped, forwarded -->
-                <h2>Transmission Medium </h2>
-                <div id="MiddleLogs"></div>
+                <h2 class="text-left">Medium    </h2>
+                <div class="row">
+                    <form id="SenderEmit" method="POST" action='#'>
+                        <input type="text" style="width: 8em" name="emit_data" id="SenderEmitData" placeholder="Message">
+                        <input type="submit" id="SenderEmitDataBtn" value="SEND">
+                    </form>
+                </div>
+                <br>
+                <!-- Middle Layer Logs -->
+                <div class="row">
+                    <h2>Medium Logs</h2>
+                    <div class="col-sm-12">
+                        <div id="MiddleLogs">
+                            <br>
+                            <br> Hi, I am the Medium
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- receiver -->
-            <div class="col-lg-4">
-                <h2>Receiver </h2>
-
-                <!-- Receiver Disconnect button -->
-                <form id="ReceiverDisconnect" method="POST" action="#">
-                    <input type="submit" id="ReceiverDisconnectBtn" value="Disconnect">
-                </form>
-
+            <div class="col-sm-4">
+                <h2 class="text-left">Receiver </h2>
+                <div class="row">
+                    <!-- Receiver Disconnect button -->
+                    <form id="ReceiverDisconnect" method="POST" action="#">
+                        <input type="submit" id="ReceiverDisconnectBtn" value="Disconnect">
+                    </form>
+                </div>
+                <br>
                 <!-- Receiver Logs -->
-                <h2>Receiver Logs:</h2>
-                <div id="ReceiverLogs"></div>
+                <div class="row">
+
+                    <h2>Receiver Logs:</h2>
+                    <div class="col-sm-12">
+                        <div id="ReceiverLogs"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </body>
+
 </html>

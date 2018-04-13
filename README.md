@@ -15,6 +15,7 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 - threaded timer
 - packet and Ack numbers
 - a lot of events and a lot of time
+- status in table format - scrollable
 
 ## Approach
 

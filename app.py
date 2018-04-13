@@ -40,7 +40,7 @@ def caught_by_middle_layer(message):
     Event : Message caught from server frontend 
     Task  : Manipulate data & forward to receiver end
     """
-    time.sleep(.3)
+    time.sleep(.1)
     emit('ReceivePacketMiddle', {'data': message['data']})
     time.sleep(.2)
 
@@ -53,6 +53,17 @@ def send_to_receiver(message):
     Task  : Forward the message to receiver end
     """
     emit('ReceivePacket', {'data': message['data']})
+
+@socketio.on('SendingAck')
+def receiving_ack(message):
+    emit('AckReceived', { 'data': message['data']})
+
+
+@socketio.on('SendingAckMiddle')
+def receiving_ack_Medium(message):
+    time.sleep(.1)
+    emit('AckReceivedMedium', { 'data': message['data']})
+    time.sleep(.2)
 
 
 # continous pings
