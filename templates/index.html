@@ -23,14 +23,35 @@
             // initializing connecting to Server
             socket.on('connect', function () {
                 // make entry in Receiver logs
-                message = 'Hi Sender!';
+                message = 'Receiver Alive !'
                 $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(message).html());
+                message = getCurrentDateTime() + 'Receiver requesting connection. Hi Sender!';
+                $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(message).html());
+                socket.emit('connectionRequestToMiddleLayerBackend', { data: 'Hi Sender!' });
                 // let server connect complete the connection
             });
 
+            socket.on('connectionRequestToMiddleLayerFrontend', function (message) {
+                $('#MiddleLayerLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + "Intercepting : " + message['data']).html());
+                socket.emit('connectionRequestToSenderBackend', { data: message['data'] });
+            })
+
             // received reply from server - Connection ready
-            socket.on('complete_connection', function (message) {
+            socket.on('connectionRequestToSenderFrontend', function (message) {
+                $('#SenderLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
+                return false;
+            })
+
+            socket.on('connection_failure', function (message) {
                 $('#SenderLogs').append('<br><br>' + $('<div/>').text(message.data).html());
+                disableAllButtons(true);
+                return false;
+            })
+
+            socket.on('server_started', function () {
+                message = "Server Started !"
+                $('#SenderLogs').append('<br><br>' + $('<div/>').text(message).html());
+                return false;
             })
 
             // ===================================== continuous Ping pong ========================================

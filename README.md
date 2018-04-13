@@ -6,6 +6,7 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 - refactor done
 - proper long comments
 - include medium in handshake
+- to be told about crashing in the medium logs
 
 ## TODO - Stop and Wait
 

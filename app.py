@@ -95,7 +95,21 @@ def complete_connection():
     Event : Accept the connection from client (predefined)
     Task  : To complete the connection to this client
     """
-    emit('complete_connection', {'data': 'Hi Receiver!'})
+    emit('server_started')
+    # emit('complete_connection', {'data': 'Hi Receiver!'})
+
+
+@socketio.on('connectionRequestToMiddleLayerBackend')
+def connection_request_to_middle_layer(message):
+    emit('connectionRequestToMiddleLayerFrontend', {'data': message['data']})
+
+
+@socketio.on('connectionRequestToSenderBackend')
+def connectionRequestToSenderBackend(message):
+    if message['data'] == 'Hi Sender!':
+        emit('connectionRequestToSenderFrontend', {'data': 'Connection established. Hello Receiver!'})
+    else:
+        emit('connection_failure', {'data': 'Connection denied, Retry!'})
 
 
 # Requesting termination of connection
