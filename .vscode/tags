@@ -1,0 +1,74 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+MyNamespace	../references/example/app_namespace.py	/^class MyNamespace(Namespace):$/;"	kind:class	line:35
+User	../references/example/sessions.py	/^class User(UserMixin, object):$/;"	kind:class	line:15
+__init__	../references/example/sessions.py	/^    def __init__(self, id=None):$/;"	kind:member	line:16
+ack_at_middle_layer_backend	../app.py	/^def ack_at_middle_layer_backend(message):$/;"	kind:function	line:85
+ack_at_sender_backend	../app.py	/^def ack_at_sender_backend(message):$/;"	kind:function	line:95
+app	../app.py	/^app = Flask(__name__)$/;"	kind:variable	line:13
+app	../references/example/app_namespace.py	/^app = Flask(__name__)$/;"	kind:variable	line:12
+app	../references/example/app_normal.py	/^app = Flask(__name__)$/;"	kind:variable	line:12
+app	../references/example/sessions.py	/^app = Flask(__name__)$/;"	kind:variable	line:7
+app.py	../app.py	1;"	kind:file	line:1
+app_namespace.py	../references/example/app_namespace.py	1;"	kind:file	line:1
+app_normal.py	../references/example/app_normal.py	1;"	kind:file	line:1
+async_mode	../app.py	/^async_mode = None$/;"	kind:variable	line:11
+async_mode	../references/example/app_namespace.py	/^async_mode = None$/;"	kind:variable	line:10
+async_mode	../references/example/app_normal.py	/^async_mode = None$/;"	kind:variable	line:10
+background_thread	../references/example/app_namespace.py	/^def background_thread():$/;"	kind:function	line:19
+background_thread	../references/example/app_normal.py	/^def background_thread():$/;"	kind:function	line:19
+close	../references/example/app_normal.py	/^def close(message):$/;"	kind:function	line:69
+complete_connection	../app.py	/^def complete_connection():$/;"	kind:function	line:122
+connectionRequestToSenderBackend	../app.py	/^def connectionRequestToSenderBackend(message):$/;"	kind:function	line:140
+connection_request_to_middle_layer	../app.py	/^def connection_request_to_middle_layer(message):$/;"	kind:function	line:135
+disconnect_request	../app.py	/^def disconnect_request(message):$/;"	kind:function	line:150
+disconnect_request	../references/example/app_normal.py	/^def disconnect_request():$/;"	kind:function	line:86
+get_session	../references/example/sessions.py	/^def get_session():$/;"	kind:function	line:50
+handling_packet_at_sender_backend	../app.py	/^def handling_packet_at_sender_backend(message):$/;"	kind:function	line:32
+handling_packet_crash	../app.py	/^def handling_packet_crash():$/;"	kind:function	line:80
+handling_timer_Blast	../app.py	/^def handling_timer_Blast(message):$/;"	kind:function	line:55
+index	../app.py	/^def index():$/;"	kind:function	line:112
+index	../references/example/app_namespace.py	/^def index():$/;"	kind:function	line:31
+index	../references/example/app_normal.py	/^def index():$/;"	kind:function	line:31
+index	../references/example/sessions.py	/^def index():$/;"	kind:function	line:26
+join	../references/example/app_normal.py	/^def join(message):$/;"	kind:function	line:51
+leave	../references/example/app_normal.py	/^def leave(message):$/;"	kind:function	line:60
+load_user	../references/example/sessions.py	/^def load_user(id):$/;"	kind:function	line:21
+login	../references/example/sessions.py	/^login = LoginManager(app)$/;"	kind:variable	line:10
+on_close_room	../references/example/app_namespace.py	/^    def on_close_room(self, message):$/;"	kind:member	line:61
+on_connect	../references/example/app_namespace.py	/^    def on_connect(self):$/;"	kind:member	line:83
+on_disconnect	../references/example/app_namespace.py	/^    def on_disconnect(self):$/;"	kind:member	line:91
+on_disconnect_request	../references/example/app_namespace.py	/^    def on_disconnect_request(self):$/;"	kind:member	line:74
+on_join	../references/example/app_namespace.py	/^    def on_join(self, message):$/;"	kind:member	line:47
+on_leave	../references/example/app_namespace.py	/^    def on_leave(self, message):$/;"	kind:member	line:54
+on_my_broadcast_event	../references/example/app_namespace.py	/^    def on_my_broadcast_event(self, message):$/;"	kind:member	line:41
+on_my_event	../references/example/app_namespace.py	/^    def on_my_event(self, message):$/;"	kind:member	line:36
+on_my_ping	../references/example/app_namespace.py	/^    def on_my_ping(self):$/;"	kind:member	line:80
+on_my_room_event	../references/example/app_namespace.py	/^    def on_my_room_event(self, message):$/;"	kind:member	line:68
+packet_at_middle_layer	../app.py	/^def packet_at_middle_layer(message):$/;"	kind:function	line:43
+packet_at_receiver_backend	../app.py	/^def packet_at_receiver_backend(message):$/;"	kind:function	line:68
+ping_pong	../app.py	/^def ping_pong():$/;"	kind:function	line:102
+ping_pong	../references/example/app_normal.py	/^def ping_pong():$/;"	kind:function	line:94
+send_room_message	../references/example/app_normal.py	/^def send_room_message(message):$/;"	kind:function	line:78
+session_access	../references/example/sessions.py	/^def session_access():$/;"	kind:function	line:31
+sessions.py	../references/example/sessions.py	1;"	kind:file	line:1
+set_session	../references/example/sessions.py	/^def set_session(data):$/;"	kind:function	line:59
+socketio	../app.py	/^socketio = SocketIO(app, async_mode=async_mode)$/;"	kind:variable	line:15
+socketio	../references/example/app_namespace.py	/^socketio = SocketIO(app, async_mode=async_mode)$/;"	kind:variable	line:14
+socketio	../references/example/app_normal.py	/^socketio = SocketIO(app, async_mode=async_mode)$/;"	kind:variable	line:14
+socketio	../references/example/sessions.py	/^socketio = SocketIO(app, manage_session=False)$/;"	kind:variable	line:12
+test_broadcast_message	../references/example/app_normal.py	/^def test_broadcast_message(message):$/;"	kind:function	line:43
+test_connect	../references/example/app_normal.py	/^def test_connect():$/;"	kind:function	line:99
+test_disconnect	../app.py	/^def test_disconnect():$/;"	kind:function	line:161
+test_disconnect	../references/example/app_normal.py	/^def test_disconnect():$/;"	kind:function	line:108
+test_message	../references/example/app_normal.py	/^def test_message(message):$/;"	kind:function	line:36
+thread	../app.py	/^thread = None$/;"	kind:variable	line:16
+thread	../references/example/app_namespace.py	/^thread = None$/;"	kind:variable	line:15
+thread	../references/example/app_normal.py	/^thread = None$/;"	kind:variable	line:15
+thread_lock	../app.py	/^thread_lock = Lock()$/;"	kind:variable	line:17
+thread_lock	../references/example/app_namespace.py	/^thread_lock = Lock()$/;"	kind:variable	line:16
+thread_lock	../references/example/app_normal.py	/^thread_lock = Lock()$/;"	kind:variable	line:16
