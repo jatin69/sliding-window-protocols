@@ -25,6 +25,7 @@
                 // make entry in Receiver logs
                 message = 'Receiver Alive !'
                 $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(message).html());
+                disableAllButtons(false);
                 message = getCurrentDateTime() + 'Receiver requesting connection. Hi Sender!';
                 $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(message).html());
                 socket.emit('connectionRequestToMiddleLayerBackend', { data: 'Hi Sender!' });
@@ -106,36 +107,95 @@
             }
 
             function disableAllButtons(status) {
+                // this can be helpful in sliding window
+
                 $('#SenderDisconnectBtn').attr('disabled', status);
                 $('#ReceiverDisconnectBtn').attr('disabled', status);
-                $('#senderFrontendDataBtn').attr('disabled', status);
+                $('#senderInputDataBtn').attr('disabled', status);
                 $("#senderFrontendData").attr("disabled", status);
                 $("#MiddleLayerDisconnectBtn").attr("disabled", status);
             }
 
+
+            function randomNumberFromRange(min, max) {
+                return Math.floor(Math.random() * (max - min + 1) + min);
+            }
+
+
             // =========================================== Transmission events ======================   ===============
 
-            // ================================ Packet orginiating at Sender Frontend ================================
-            $('form#senderFrontend').submit(function (event) {
+            // ================================ Packet originating at Sender Input ================================
 
-                // retrieve data from sender frontend & send to middle layer backend 
-                message = $('#senderFrontendData').val();
-                $('#SenderLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + "Sending : " + message).html());
-                socket.emit('SendPacketToMiddleLayerBackend', { data: message });
+            /*
+            From : Sender Input Form
+            Task : Sender Input form processing
+            To   : Sender Backend
+            */
+            $('form#senderInput').submit(function (event) {
+                // sending to sender backend
+                var info = $('#senderInputData').val();
+                socket.emit('sendPacketToSenderBackend', { data: info });
 
                 // disable buttons until acknowledgement is received of current packet
                 disableAllButtons(true);
                 return false;
             });
 
-            // ======================================== packet at Middle Layer =====================================
+
+            /*
+            From : Sender Backend
+            Task : Sender Frontend, append Logs on sender side & start timer for this packet
+            To   : Middle Layer Backend
+            */
+            socket.on('sendPacketToSenderFrontend', function (message) {
+                $('#SenderLogs')
+                    .append('<br><br>' + $('<div/>')
+                        .text(getCurrentDateTime() + "Sending : " + message['data'] + "( Packet #" + message['currentPacket'] + " )")
+                        .html());
+
+                // start a time here
+                setTimeout(function () {
+                    socket.emit('packetTimerBlast',
+                        {
+                            data: message['data'],
+                            currentPacket: message['currentPacket']
+                        })
+                }, 2000);
+
+                socket.emit('SendPacketToMiddleLayerBackend',
+                    { data: message['data'], currentPacket: message['currentPacket'] });
+            })
+
+
+            /*
+            From : Middle Layer Backend
+            Task : Middle Layer Frontend, append Logs on middle layer & randomly drop packets
+            To   : Receiver backend OR Crash Handler
+            */
             socket.on('SendPacketToMiddleLayerFrontend', function (message) {
-                $('#MiddleLayerLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + "Intercepting : " + message['data']).html());
-                socket.emit('sendPacketToReceiverBackend', { data: message['data'] });
+
+                // random function here. packet lost in transmission -> nothing received
+                var randomNumber = randomNumberFromRange(-10, 10);
+                if (randomNumber < 0) { // failed
+                    $('#MiddleLayerLogs')
+                        .append('<br><br>' + $('<div/>')
+                            .text(getCurrentDateTime() + "Intercepting : " + message['data'] + '   (XX Crashed XX)').html());
+                    socket.emit('PackedCrashedAtMiddleLayer');
+                }
+                else { // all good
+                    $('#MiddleLayerLogs')
+                        .append('<br><br>' + $('<div/>').text(getCurrentDateTime() + "Intercepting : " + message['data']).html());
+                    socket.emit('sendPacketToReceiverBackend', { data: message['data'] });
+                }
                 return false;
             })
 
-            // ======================================== packet at Receiver Layer =====================================
+
+            /*
+            From : Receiver backend
+            Task : Receiver Frontend, append Logs at receiver
+            To   : Send Acknowledgement to Middle Layer Backend
+            */
             socket.on('sendPacketToReceiverFrontend', function (message) {
                 $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + "Received : " + message['data']).html());
 
@@ -146,16 +206,32 @@
                 return false;
             })
 
+            /*
+            From : Crash Handler
+            Task : append failure Logs at receiver
+            To   : Nothing, sender will auto timeout
+            */
+            socket.on('packedNotReceivedByReceiver', function () {
+                $('#ReceiverLogs').append('<br><br><br>' + $('<div/>').text('debug log : Message crashed ').html());
+                return false;
+            })
 
-            // ================================ Ack orginiating at Receiver Layer ===============================
-            // ======================================== Ack at Middle Layer =====================================
+
+            /*
+            From : Received Ack Middle Layer Backend
+            Task : append Ack Logs at Middle layer frontend
+            To   : Pass Ack to Sender Backend
+            */
             socket.on('sendAckToMiddleLayerFrontend', function (message) {
                 $('#MiddleLayerLogs').append('<br>' + $('<div/>').text(getCurrentDateTime() + "Intercepting : " + message['data']).html());
                 socket.emit('sendAckToSenderBackend', { data: message['data'] });
             })
 
-            // ======================================== packet at Sender Layer =====================================
-
+            /*
+            From : Received Ack from Sender Backend
+            Task : append Ack Logs at Sender frontend
+            To   : None, one packet journey completed
+            */
             socket.on('sendAckToSenderFrontend', function (message_from_server) {
                 message = "Received : " + message_from_server['data'];
                 $('#SenderLogs').append('<br>' + $('<div/>').text(getCurrentDateTime() + message).html());
@@ -164,30 +240,51 @@
 
             })
 
-
+            /*
+            From : Sender Disconnect button
+            Task : Disable all buttons
+            To   : disconnect request (By sender)
+            */
             $('form#SenderDisconnect').submit(function (event) {
                 socket.emit('disconnect_request', { data: 'sender ' });
                 disableAllButtons(true);
                 return false;
             });
 
+            /*
+            From : Middle Layer 'Break Transmission' button
+            Task : Disable all buttons
+            To   : disconnect request (By Middle Layer)
+            */
             $('form#MiddleLayerDisconnect').submit(function (event) {
                 socket.emit('disconnect_request', { data: 'Middle Layer ' });
                 disableAllButtons(true);
                 return false;
             });
 
+
+            /*
+            From : Receiver Disconnect button
+            Task : Disable all buttons
+            To   : disconnect request (By Receiver)
+            */
             $('form#ReceiverDisconnect').submit(function (event) {
                 socket.emit('disconnect_request', { data: 'receiver ' });
                 disableAllButtons(true);
                 return false;
             });
 
+
+            /*
+            From : disconnection request backend
+            Task : Append disconnection log to Sender, Receiver and Middle Layer
+            To   : disconnect ( predefined ) : Terminates socket
+            */
             socket.on('disconnecting_confirmation', function (message) {
                 $('#SenderLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
                 $('#MiddleLayerLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
                 $('#ReceiverLogs').append('<br><br>' + $('<div/>').text(getCurrentDateTime() + message['data']).html());
-
+                socket.emit('disconnect');
             })
 
             // ===============================================================================================
@@ -231,9 +328,9 @@
                 <h2 class="text-left">Sender</h2>
                 <div class="row">
                     <!-- Sender send data button -->
-                    <form id="senderFrontend" method="POST" action='#'>
-                        <input type="text" style="width: 8em" name="senderFrontendData" id="senderFrontendData" placeholder="Message">
-                        <input type="submit" id="senderFrontendDataBtn" value="SEND">
+                    <form id="senderInput" method="POST" action='#'>
+                        <input type="text" style="width: 8em" name="senderInputData" id="senderInputData" placeholder="Message">
+                        <input type="submit" id="senderInputDataBtn" value="SEND">
                     </form>
                     <!-- Sender Disconnect button -->
                     <form id="SenderDisconnect" method="POST" action="#">

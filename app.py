@@ -34,6 +34,15 @@ thread_lock = Lock()
 #          {'data': message['data'], 'count': session['receive_count']})
 
 
+@socketio.on('sendPacketToSenderBackend')
+def handling_packet_at_sender_backend(message):
+    session['currentPacket'] = session.get('currentPacket', 0) + 1
+    emit('sendPacketToSenderFrontend',  {
+        'data': message['data'],
+        'currentPacket': session['currentPacket']
+    })
+
+
 # Caught by middle layer for manipulation
 @socketio.on('SendPacketToMiddleLayerBackend')
 def packet_at_middle_layer(message):
@@ -43,7 +52,19 @@ def packet_at_middle_layer(message):
     """
     time.sleep(.1)
     emit('SendPacketToMiddleLayerFrontend', {'data': message['data']})
-    time.sleep(.2)
+    time.sleep(.1)
+
+
+@socketio.on('packetTimerBlast')
+def handling_timer_Blast(message):
+    # careful here
+    if session['currentPacket'] >= message['currentPacket']+1:
+        print("No issues. Packet number",
+              message['currentPacket'], "successful.")
+    else:
+        # retransmit
+        emit('sendPacketToSenderFrontend', {
+             'data': message['data'], 'currentPacket': message['currentPacket']})
 
 
 # Message to be sent to Receiver
@@ -53,6 +74,8 @@ def packet_at_receiver_backend(message):
     Event : Message received from server middle layer 
     Task  : Forward the message to receiver end
     """
+    # increment packet received number here
+    session['currentPacket'] = session.get('currentPacket', 0) + 1
     emit('sendPacketToReceiverFrontend', {'data': message['data']})
 
 
@@ -61,11 +84,18 @@ def ack_at_sender_backend(message):
     emit('sendAckToSenderFrontend', {'data': message['data']})
 
 
+@socketio.on('PackedCrashedAtMiddleLayer')
+def handling_packet_crash():
+    emit('packedNotReceivedByReceiver')
+
+
 @socketio.on('sendAckToMiddleLayerBackend')
 def ack_at_middle_layer_backend(message):
+    # will increase each time a packet is sent
+    # current packet number starts with 1
     time.sleep(.1)
     emit('sendAckToMiddleLayerFrontend', {'data': message['data']})
-    time.sleep(.2)
+    time.sleep(.1)
 
 
 # continous pings
@@ -95,6 +125,7 @@ def complete_connection():
     Event : Accept the connection from client (predefined)
     Task  : To complete the connection to this client
     """
+    session['currentPacket'] = 0
     emit('server_started')
     # emit('complete_connection', {'data': 'Hi Receiver!'})
 
@@ -107,7 +138,8 @@ def connection_request_to_middle_layer(message):
 @socketio.on('connectionRequestToSenderBackend')
 def connectionRequestToSenderBackend(message):
     if message['data'] == 'Hi Sender!':
-        emit('connectionRequestToSenderFrontend', {'data': 'Connection established. Hello Receiver!'})
+        emit('connectionRequestToSenderFrontend', {
+             'data': 'Connection established. Hello Receiver!'})
     else:
         emit('connection_failure', {'data': 'Connection denied, Retry!'})
 
@@ -121,7 +153,6 @@ def disconnect_request(message):
     """
     emit('disconnecting_confirmation', {
          'data': message['data'] + 'Disconnected!'})
-    disconnect()
 
 
 # Server disconnected
