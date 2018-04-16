@@ -1,2 +1,4 @@
 references/
-templates/pretty.js
+templates/prettified.js
+templates/testSkeleton.html
+static/Skeleton-2.0.4/
