@@ -28,6 +28,7 @@ def server_coming_alive():
     """
     session['currentPacket'] = 0
     session['currentAck'] = 0
+    session['expectedAck'] = 0
     emit('server_started')
     # emit('complete_connection', {'data': 'Hi Receiver!'})
 
@@ -73,11 +74,12 @@ def ping_pong():
 @socketio.on('sendPacketToSenderBackend')
 def handling_packet_at_sender_backend(message):
     """
-    From : It's a Predefined event. Emitted by socketIO when receiver comes alive.
-    Task : Initialise a connection with sender. Say Hi to sender.
-    To   : connection request to Middle layer backend
+    From : Sender Input form OR retransmissions
+    Task : initialise session variables
+    To   : send Packet to sender frontend
     """
     session['currentPacket'] = session.get('currentPacket', 0) + 1
+    session['expectedAck'] = session['currentPacket']
     emit('sendPacketToSenderFrontend',  {
         'data': message['data'],
         'currentPacket': session['currentPacket']
@@ -92,14 +94,27 @@ def handling_timer_Blast_from_sender(message):
            else, re transmit the message 
     To   : Middle layer frontend
     """
-    # careful here
-    if message['currentPacket'] <= session['currentAck']:
-        print("No issues. Packet number",
-              message['currentPacket'], "successful.")
-    else:
-        # retransmit
+    print("Timer Blasted for Packet #", message['currentPacket'])
+    """
+    Case : Missing Packet case
+    Explanation : If current packet ( whose timer blasts after 2 seconds ) 
+    is still greater (even after 2 seconds ) than 
+    packets received by receiver (who should have received atleast 2 more in 2 seconds)
+    then something is wrong. Retransmit.
+
+    Case : Missing acknowledgement case
+    Explanation : Ack is incremented from receiver side, but is never reached at sender.
+    so we decrement the session currentAck whenver ack crashes at middle layer
+    that way, currentExpectedAck (equal to currentPack for stop and wait) 
+    is always > currentAck
+
+    """
+    if message['currentPacket'] > session['currentAck']:
+        print("Resending Packet number", message['currentPacket'])
         emit('sendPacketToSenderFrontend', {
              'data': message['data'], 'currentPacket': message['currentPacket']})
+    else:
+        print("No issues. Packet number", message['currentPacket'], "successful.")
 
 
 @socketio.on('SendPacketToMiddleLayerBackend')
@@ -117,6 +132,11 @@ def handling_packet_at_middle_layer_backend(message):
 
 @socketio.on('PackedCrashedAtMiddleLayer')
 def handling_packet_crash_at_middle_layer():
+    """
+    From : Middle Layer frontend
+    Task : handle packet crash and display debug log at frontend
+    To   : Receiver frontend for debug log
+    """
     emit('packedNotReceivedByReceiver')
 
 
@@ -144,6 +164,17 @@ def handling_ack_at_middle_layer_backend(message):
          'data': message['data'], 'currentAck': message['currentAck']})
     time.sleep(.1)
 
+
+@socketio.on('AckCrashedAtMiddleLayer')
+def handling_ack_crash_at_middle_layer(message):
+    """
+    From : Middle Layer frontend
+    Task : handle Ack crash and display debug log at frontend
+    To   : Sender frontend for debug log
+    """
+    print("Ack #", message['currentAck'], "crashed.")
+    session['currentAck'] = session['currentAck']-1
+    emit('ackNotReceivedBySender')
 
 @socketio.on('sendAckToSenderBackend')
 def handling_ack_at_sender_backend(message):

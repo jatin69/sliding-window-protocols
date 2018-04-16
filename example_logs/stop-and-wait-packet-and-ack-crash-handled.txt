@@ -1,0 +1,159 @@
+
+Networks
+
+Average ping/pong latency: 52.5ms
+Stop and Wait Protocol
+
+ASych Mode: gevent
+Sender
+
+Sender Logs
+
+
+Server Started !
+
+Logging Data on 16 April 2018 at 14:52:13:610 Connection established. Hello Receiver!
+
+Logging Data on 16 April 2018 at 14:52:16:638 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:18:698 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:20:760 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:22:814 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:24:872 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:26:924 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:28:980 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:31:32 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:33:94 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:35:148 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:37:204 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:39:262 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:41:320 Sending : owow( Packet #1 )
+
+Logging Data on 16 April 2018 at 14:52:43:382 Sending : owow( Packet #1 )
+
+Debug Log : Ack crashed
+
+Logging Data on 16 April 2018 at 14:52:45:442 Sending : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:46:96 Received : Ack for Packet : owow( Ack #1 )
+Medium
+
+Medium Logs
+
+
+Hi, I am the Medium
+
+Logging Data on 16 April 2018 at 14:52:13:546 Intercepting : Hi Sender!
+
+Logging Data on 16 April 2018 at 14:52:16:752 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:18:812 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:20:880 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:21:244 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:22:928 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:23:278 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:24:988 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:27:44 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:29:96 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:31:150 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:31:502 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:33:210 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:33:576 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:35:262 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:35:620 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:37:320 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:37:676 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:39:382 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:41:436 Intercepting : owow( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 16 April 2018 at 14:52:43:498 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:43:848 Intercepting : ( Ack #1 ) XX CRASHED XX
+
+Logging Data on 16 April 2018 at 14:52:45:560 Intercepting : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:45:946 Intercepting : Ack for Packet : owow( Ack #1 )
+Receiver
+
+Receiver Logs
+
+
+Receiver Alive !
+
+Logging Data on 16 April 2018 at 14:52:13:518 Receiver requesting connection. Hi Sender!
+
+
+Debug Log : Packet crashed
+
+
+Debug Log : Packet crashed
+
+Logging Data on 16 April 2018 at 14:52:21:72 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:21:74 Sending : Ack for Packet : owow( Ack #1 )
+
+Logging Data on 16 April 2018 at 14:52:23:120 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:23:120 Sending : Ack for Packet : owow( Ack #1 )
+
+
+Debug Log : Packet crashed
+
+
+Debug Log : Packet crashed
+
+
+Debug Log : Packet crashed
+
+Logging Data on 16 April 2018 at 14:52:31:344 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:31:344 Sending : Ack for Packet : owow( Ack #1 )
+
+Logging Data on 16 April 2018 at 14:52:33:404 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:33:406 Sending : Ack for Packet : owow( Ack #1 )
+
+Logging Data on 16 April 2018 at 14:52:35:458 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:35:458 Sending : Ack for Packet : owow( Ack #1 )
+
+Logging Data on 16 April 2018 at 14:52:37:514 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:37:516 Sending : Ack for Packet : owow( Ack #1 )
+
+
+Debug Log : Packet crashed
+
+
+Debug Log : Packet crashed
+
+Logging Data on 16 April 2018 at 14:52:43:692 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:43:692 Sending : Ack for Packet : owow( Ack #1 )
+
+Logging Data on 16 April 2018 at 14:52:45:764 Received : owow( Packet #1 )
+Logging Data on 16 April 2018 at 14:52:45:766 Sending : Ack for Packet : owow( Ack #1 )

@@ -269,7 +269,7 @@
                 */
 
                 // random function here. packet lost in transmission -> nothing received
-                var randomNumber = randomNumberFromRange(-10, 10);
+                var randomNumber = randomNumberFromRange(-5, 10);
                 if (randomNumber < 0) {
                     // failed
                     $("#MiddleLayerLogs").append(
@@ -355,7 +355,7 @@
 
             socket.on("packedNotReceivedByReceiver", function () {
                 /*
-                From : Crash Handler
+                From : Packet Crash Handler
                 Task : append failure Logs at receiver
                 To   : Nothing, sender will auto timeout
                 */
@@ -375,24 +375,63 @@
                 Task : append Ack Logs at Middle layer frontend
                 To   : Pass Ack to Sender Backend
                 */
-                $("#MiddleLayerLogs").append(
-                    "<br>" +
+                // random function here. Ack lost in transmission 
+                // Sender assumes packet has not reached nothing received
+                var randomNumber = randomNumberFromRange(-5, 10);
+                if (randomNumber < 0) {
+                    // failed
+                    $("#MiddleLayerLogs").append(
+                        "<br>" +
+                        $("<div/>")
+                            .text(
+                                getCurrentDateTime() +
+                                "Intercepting : " +
+                                "( Ack #" +
+                                message["currentAck"] +
+                                " )" +
+                                " XX CRASHED XX"
+                            )
+                            .html()
+                    );
+                    socket.emit("AckCrashedAtMiddleLayer", { currentAck : message["currentAck"] });
+                }
+                else {
+                    $("#MiddleLayerLogs").append(
+                        "<br>" +
+                        $("<div/>")
+                            .text(
+                                getCurrentDateTime() +
+                                "Intercepting : " +
+                                message["data"] +
+                                "( Ack #" +
+                                message["currentAck"] +
+                                " )"
+                            )
+                            .html()
+                    );
+                    socket.emit("sendAckToSenderBackend", {
+                        data: message["data"],
+                        currentAck: message["currentAck"]
+                    });
+                }
+            });
+
+            socket.on("ackNotReceivedBySender", function () {
+                /*
+                From : Ack Crash Handler
+                Task : append failure Logs at sender
+                To   : Nothing, sender will auto timeout
+                */
+
+                $("#SenderLogs").append(
+                    "<br><br>" +
                     $("<div/>")
-                        .text(
-                            getCurrentDateTime() +
-                            "Intercepting : " +
-                            message["data"] +
-                            "( Ack #" +
-                            message["currentAck"] +
-                            " )"
-                        )
+                        .text("Debug Log : Ack crashed ")
                         .html()
                 );
-                socket.emit("sendAckToSenderBackend", {
-                    data: message["data"],
-                    currentAck: message["currentAck"]
-                });
+                return false;
             });
+
 
             socket.on("sendAckToSenderFrontend", function (message) {
                 /*

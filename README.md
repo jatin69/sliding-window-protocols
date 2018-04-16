@@ -10,20 +10,40 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
     * [x] sorted by events
     * [x] documented
     * [x] formatted
-    * [X] prettify from separate pretty.js
-  * [X] app.py
-    * [X] sorted by events
-    * [X] documented
-    * [X] formatted
+    * [x] prettify from separate pretty.js
+  * [x] app.py
+    * [x] sorted by events
+    * [x] documented
+    * [x] formatted
   * pretty.js
-    * prettier formatting is an acquired taste 
+    * prettier formatting is an acquired taste
+
+### MAJOR
+
+> > not running as of 2AM 16 april
+> > running as of 3pm 16 april (maybe its a temp fix)
+
+* decide flow of Packet and Acknowledgement
+  * checkpoints
+  * Packet at sender backend
+  * packet at receiver backend
+  * ack at receiver backend == current pack
+  * ack at sender backend
+* add values such that a timer can exactly identify, which event has occurred and which not
+* maybe use string instead of packet number, maybe status string + packet
+* but pure packet is still important to signify the concept
+
+> > > > > > > kind of temporary fix. Will get to know more in sliding window
 
 * colors for ack, message, and crashes
-* put exact packet numbers in all messages
+* put socketIO functions in separate file if possible
+* [x] put exact packet numbers in all messages
 * try sliding - works well - amazing
 * add acknowledgement crashing
 
-* packet crashed - handled
+  * to handle this, i need to introduce expected ack
+
+* [x] packet crashed - handled
 * ack crashed - to be handled
 
 ## TODO - Stop and Wait
