@@ -4,10 +4,17 @@
 
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
+
+## quick todo
+- heroku deployment
+- good UX / UI to see the logs
+
 ## Status
 
 > > not running as of 2AM 16 april
+
 > > running as of 3pm 16 april (maybe its a temp fix)
+
 > > kind of temporary fix. Will get to know more in sliding window
 
 ## General Implementations
@@ -47,7 +54,8 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
   * [x] ack at sender backend
   * [x] add packet crashing
   * [x] add acknowledgement crashing
-* [ ] add values such that a timer can exactly identify, which event has occurred and which not maybe use string instead of packet number, maybe status string + packet but pure packet is still important to signify the concept
+  * [X] tested for continuous bursts. All good and async. 
+* [ ] add capability to timer so it can uniquely identify at state of packet when it is blasted off. Do retain the packet numbers.
 
 ## Additions
 
