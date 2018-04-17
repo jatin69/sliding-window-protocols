@@ -212,9 +212,10 @@ def test_disconnect():
     print('Receiver disconnected', request.sid)
 
 
-# ################################# Serving index page #####################################
+# ############################ Serving go back N #####################################
 
-# Server index.html
+# Server go-back-N.html
+# when namespaces are ready - change it to @app.route('/go-back-N')
 @app.route('/')
 def index():
     """

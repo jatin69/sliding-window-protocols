@@ -1,4 +1,5 @@
 references/
-templates/prettified.js
 templates/testSkeleton.html
 static/Skeleton-2.0.4/
+node_modules/
+package-lock.json

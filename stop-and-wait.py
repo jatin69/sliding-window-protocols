@@ -212,17 +212,18 @@ def test_disconnect():
     print('Receiver disconnected', request.sid)
 
 
-# ################################# Serving index page #####################################
+# ########################## Serving stop and wait protocol #############################
 
-# Server index.html
+# Server stop-and-wait.html
+# when namespaces are ready - change it to @app.route('/stop-and-wait')
 @app.route('/')
-def index():
+def stop_and_wait():
     """
     From : User navigates to "localhost:5000" in a new tab
     Task : Serve the "templates/index.html" page to user
     To   : None. Wait for events to start.
     """
-    return render_template('go-back-N.html', async_mode=socketio.async_mode)
+    return render_template('stop-and-wait.html', async_mode=socketio.async_mode)
 
 
 # ################################# Main function #####################################
@@ -234,16 +235,3 @@ if __name__ == '__main__':
     Task  : Keep the server running, debugging ON in dev mode
     """
     socketio.run(app, debug=True)
-
-# ###################################################################################
-
-# def background_thread():
-#     """Example of how to send server generated events to clients."""
-#     count = 0
-#     while True:
-#         socketio.sleep(10)
-#         count += 1
-#         socketio.emit('my_response',
-#                       {'data': 'Server generated event', 'count': count})
-
-# ###################################################################################

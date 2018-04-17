@@ -4,10 +4,10 @@
 
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
-
 ## quick todo
-- heroku deployment
-- good UX / UI to see the logs
+
+* heroku deployment
+* good UX / UI to see the logs
 
 ## Status
 
@@ -54,7 +54,7 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
   * [x] ack at sender backend
   * [x] add packet crashing
   * [x] add acknowledgement crashing
-  * [X] tested for continuous bursts. All good and async. 
+  * [x] tested for continuous bursts. All good and async.
 * [ ] add capability to timer so it can uniquely identify at state of packet when it is blasted off. Do retain the packet numbers.
 
 ## Additions
@@ -86,3 +86,19 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 * install requirements from requirements.txt or pip lock file
 * run `python app.py` and navigate to `localhost:5000` in browser
 * disable debugging in app.py if you don't want messages in terminal
+
+## Deployment
+
+* **In dev mode** (Active currently)
+
+  * Each protocol has different python file, namely `stop-and-wait.py`, `go-back-N.py`
+  * These files serve respective html files as well
+  * To run a protocol, it's py file needs to be run and the access point for each is `localhost:5000/`
+
+* **In Deployment Mode**
+  * All python files for protocols can be merged with each having a different namespace.
+  * Now a single `app.py` is sufficient.
+  * Similarly, modify html files to serve for different namespaces.
+  * Protocols will be then served at `localhost:5000/stop-and-wait`, `localhost:5000/go-back-N`
+  * Every protocol running on same socket but with different namespace.
+  * dope.
