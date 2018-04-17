@@ -1,0 +1,61 @@
+Server Started !
+
+Logging Data on 17 April 2018 at 20:9:31:712 Connection established. Hello Receiver!
+
+Logging Data on 17 April 2018 at 20:9:39:212 Sending : Data 0( Packet #1 )
+
+Logging Data on 17 April 2018 at 20:9:39:320 Sending : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:40:180 Received : Ack for Packet : Data 1( Ack #1 )
+
+Logging Data on 17 April 2018 at 20:9:41:372 Sending : Data 1( Packet #2 )
+
+Logging Data on 17 April 2018 at 20:9:43:426 Sending : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:44:40 Received : Ack for Packet : Data 1( Ack #2 )
+
+Server Started !
+
+Logging Data on 17 April 2018 at 20:10:15:840 Connection established. Hello Receiver!
+Medium
+
+Medium Logs
+
+
+Hi, I am the Medium
+
+Logging Data on 17 April 2018 at 20:9:31:694 Intercepting : Hi Sender!
+
+Logging Data on 17 April 2018 at 20:9:39:518 Intercepting : Data 0( Packet #1 ) (XX Crashed XX)
+
+Logging Data on 17 April 2018 at 20:9:39:762 Intercepting : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:40:30 Intercepting : Ack for Packet : Data 1( Ack #1 )
+
+Logging Data on 17 April 2018 at 20:9:41:492 Intercepting : Data 1( Packet #2 ) (XX Crashed XX)
+
+Logging Data on 17 April 2018 at 20:9:43:540 Intercepting : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:43:890 Intercepting : Ack for Packet : Data 1( Ack #2 )
+
+Logging Data on 17 April 2018 at 20:10:15:756 Intercepting : Hi Sender!
+Receiver
+
+Receiver Logs
+
+
+Receiver Alive !
+
+Logging Data on 17 April 2018 at 20:9:31:632 Receiver requesting connection. Hi Sender!
+
+
+Debug Log : Packet crashed
+
+Logging Data on 17 April 2018 at 20:9:39:848 Received : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:39:848 Sending : Ack for Packet : Data 1( Ack #1 )
+
+
+Debug Log : Packet crashed
+
+Logging Data on 17 April 2018 at 20:9:43:740 Received : Data 1( Packet #2 )
+Logging Data on 17 April 2018 at 20:9:43:740 Sending : Ack for Packet : Data 1( Ack #2 )
+
+Receiver Alive !
+
+Logging Data on 17 April 2018 at 20:10:15:732 Receiver requesting connection. Hi Sender!

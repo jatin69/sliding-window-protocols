@@ -65,7 +65,8 @@
                 // uncomment these in STOP AND WAIT
                 $("#SenderDisconnectBtn").attr("disabled", status);
                 $("#ReceiverDisconnectBtn").attr("disabled", status);
-                $("#senderInputData").attr("disabled", status);
+                $("#senderInputNumberOfPackets").attr("disabled", status);
+                $("#senderInputWindowSize").attr("disabled", status);
                 $("#senderInputDataBtn").attr("disabled", status);
                 $("#MiddleLayerDisconnectBtn").attr("disabled", status);
             }
@@ -216,12 +217,22 @@
                   To   : Sender Backend
                   */
 
-                // sending to sender backend
-                var info = $("#senderInputData").val();
-                socket.emit("sendPacketToSenderBackend", { data: info });
-
                 // disable buttons until acknowledgement is received of current packet
                 disableAllButtons(true);
+
+                // sending to sender backend
+                var SenderNumberOfPackets = $("#senderInputNumberOfPackets").val();
+                var senderWindowSize = $("#senderInputWindowSize").val();
+                console.log(SenderNumberOfPackets);
+                console.log(senderWindowSize);
+                var i = 1;
+                // for (i = 1; i <= SenderNumberOfPackets + 1; i = i + senderWindowSize) {
+                console.log("inside");
+                socket.emit("sendPacketToSenderBackend", {
+                    windowSize: senderWindowSize
+                });
+                // }
+
                 return false;
             });
 
@@ -416,7 +427,7 @@
                 }
             });
 
-            socket.on("ackNotReceivedBySender", function () {
+            socket.on("ackNotReceivedBySender", function (message) {
                 /*
                   From : Ack Crash Handler
                   Task : append failure Logs at sender
@@ -426,7 +437,7 @@
                 $("#SenderLogs").append(
                     "<br><br>" +
                     $("<div/>")
-                        .text("Debug Log : Ack crashed ")
+                        .text("Negative ACK" + "for Packet #" + message['currentAck'])
                         .html()
                 );
                 return false;
@@ -548,7 +559,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <h2 class="text-left">Stop and Wait Protocol</h2>
+                <h2 class="text-left">Selective Repeat Protocol</h2>
             </div>
             <div class="col-sm-6">
                 <p class="text-right"> ASych Mode: {{ async_mode}}
@@ -567,7 +578,8 @@
                 <div class="row">
                     <!-- Sender send data button -->
                     <form id="senderInput" method="POST" action='#'>
-                        <input type="text" style="width: 8em" name="senderInputData" id="senderInputData" placeholder="Message">
+                        <input type="text" style="width: 4em" name="senderInputNumberOfPackets" id="senderInputNumberOfPackets" placeholder="# of Packets">
+                        <input type="text" style="width: 4em" name="senderInputWindowSize" id="senderInputWindowSize" placeholder="Window size">
                         <input type="submit" id="senderInputDataBtn" value="SEND">
                     </form>
                     <!-- Sender Disconnect button -->
