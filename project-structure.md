@@ -13,17 +13,17 @@
   * jquery
   * socket.io
 
---------------
+---
 
 * **experimental**
 * prettified part of protocls frontend js
-    * templates/prettified-stop-and-wait-js
+  * templates/prettified-stop-and-wait-js
 * frontend
-    * bootstrap vs skeleton
-    * templates/skeleton.html
-
+  * bootstrap vs skeleton
+  * templates/skeleton.html
 * **gitignored**
-    * skeleton lib
-    * heroku dev files
-    * node modules
-    * package-lock.json
+  * skeleton lib
+  * heroku dev files
+  * node modules
+  * package-lock.json
+  * official references/

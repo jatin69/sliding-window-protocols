@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, disconnect
 import time
 import random
-
+ 
 # Set this variable to "threading", "eventlet" or "gevent" 
 # I used gevent
 async_mode = None
