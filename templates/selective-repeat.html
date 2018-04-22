@@ -223,15 +223,13 @@
                 // sending to sender backend
                 var SenderNumberOfPackets = $("#senderInputNumberOfPackets").val();
                 var senderWindowSize = $("#senderInputWindowSize").val();
-                console.log(SenderNumberOfPackets);
-                console.log(senderWindowSize);
-                var i = 1;
-                // for (i = 1; i <= SenderNumberOfPackets + 1; i = i + senderWindowSize) {
-                console.log("inside");
-                socket.emit("sendPacketToSenderBackend", {
+                // console.log(SenderNumberOfPackets);
+                // console.log(senderWindowSize);
+
+                socket.emit("sendPacketToSenderBackendBurst", {
+                    totalNumberOfPackets: SenderNumberOfPackets,
                     windowSize: senderWindowSize
                 });
-                // }
 
                 return false;
             });
@@ -357,6 +355,7 @@
                 );
                 socket.emit("sendAckToMiddleLayerBackend", {
                     data: ackMessage,
+                    currentPacket : message["currentPacket"],
                     currentAck: message["currentAck"]
                 });
 
@@ -396,6 +395,7 @@
                             .text(
                                 getCurrentDateTime() +
                                 "Intercepting : " +
+                                message["data"] +
                                 "( Ack #" +
                                 message["currentAck"] +
                                 " )" +
@@ -407,23 +407,51 @@
                         currentAck: message["currentAck"]
                     });
                 } else {
-                    $("#MiddleLayerLogs").append(
-                        "<br>" +
-                        $("<div/>")
-                            .text(
-                                getCurrentDateTime() +
-                                "Intercepting : " +
-                                message["data"] +
-                                "( Ack #" +
-                                message["currentAck"] +
-                                " )"
-                            )
-                            .html()
-                    );
-                    socket.emit("sendAckToSenderBackend", {
-                        data: message["data"],
-                        currentAck: message["currentAck"]
-                    });
+
+                    var r = randomNumberFromRange(-2, 10);
+                    if (r < 0) {
+                        // corrupted
+                        $("#MiddleLayerLogs").append(
+                            "<br>" +
+                            $("<div/>")
+                                .text(
+                                    getCurrentDateTime() +
+                                    "Intercepting : " +
+                                    message["data"] +
+                                    "( Ack #" +
+                                    message["currentAck"] +
+                                    " ) XX corrupted xx"
+                                )
+                                .html()
+                        );
+                        socket.emit("sendNegAckToSenderBackend", {
+                            data: message["data"],
+                            currentPacket : message['currentPacket'],
+                            currentAck: message["currentAck"]
+                        });
+
+                    }
+                    else {
+                        // not corrupted
+                        $("#MiddleLayerLogs").append(
+                            "<br>" +
+                            $("<div/>")
+                                .text(
+                                    getCurrentDateTime() +
+                                    "Intercepting : " +
+                                    message["data"] +
+                                    "( Ack #" +
+                                    message["currentAck"] +
+                                    " )"
+                                )
+                                .html()
+                        );
+                        socket.emit("sendAckToSenderBackend", {
+                            data: message["data"],
+                            currentPacket : message['currentPacket'],
+                            currentAck: message["currentAck"]
+                        });
+                    }
                 }
             });
 
@@ -437,7 +465,7 @@
                 $("#SenderLogs").append(
                     "<br><br>" +
                     $("<div/>")
-                        .text("Negative ACK" + "for Packet #" + message['currentAck'])
+                        .text("Debug log : " + "Ack #" + message['currentAck'] + " Crashed ")
                         .html()
                 );
                 return false;
@@ -463,8 +491,34 @@
                         )
                         .html()
                 );
-                // ack received - re enable the buttons
+            });
+
+            socket.on("sendCompletionMessage", function () {
+                // print any message, if needed
+                // and re-enable all buttons
                 disableAllButtons(false);
+            });
+
+             socket.on("sendNegAckToSenderFrontend", function (message) {
+                /*
+                  From : Received Negative Ack from Sender Backend    : Ack received here
+                  Task : append Ack Logs at Sender frontend
+                  To   : None, one packet journey completed
+                  */
+
+                $("#SenderLogs").append(
+                    "<br>" +
+                    $("<div/>")
+                        .text(
+                            getCurrentDateTime() +
+                            "Negative Ack : " +
+                            message["data"] +
+                            "( Ack #" +
+                            message["currentAck"] +
+                            " )"
+                        )
+                        .html()
+                );
             });
 
             // =================================== Disconnection events =======================================

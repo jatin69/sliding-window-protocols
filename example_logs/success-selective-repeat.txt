@@ -1,0 +1,219 @@
+Server Started !
+
+Logging Data on 23 April 2018 at 1:27:37:524 Connection established. Hello Receiver!
+
+Logging Data on 23 April 2018 at 1:27:40:122 Sending : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 1:27:40:126 Sending : D2( Packet #2 )
+
+Logging Data on 23 April 2018 at 1:27:40:186 Sending : D3( Packet #3 )
+
+Logging Data on 23 April 2018 at 1:27:40:188 Sending : D4( Packet #4 )
+
+Debug log : Ack #1 Crashed
+Logging Data on 23 April 2018 at 1:27:41:950 Received : Ack for Packet : D2( Ack #2 )
+
+Logging Data on 23 April 2018 at 1:27:41:950 Sending : D5( Packet #5 )
+Logging Data on 23 April 2018 at 1:27:42:10 Received : Ack for Packet : D3( Ack #3 )
+
+Logging Data on 23 April 2018 at 1:27:42:10 Sending : D6( Packet #6 )
+
+Logging Data on 23 April 2018 at 1:27:42:498 Sending : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 1:27:42:502 Sending : D4( Packet #4 )
+
+Debug log : Ack #5 Crashed
+Logging Data on 23 April 2018 at 1:27:43:494 Received : Ack for Packet : D6( Ack #6 )
+
+Logging Data on 23 April 2018 at 1:27:43:496 Sending : D7( Packet #7 )
+
+Debug log : Ack #1 Crashed
+
+Logging Data on 23 April 2018 at 1:27:44:78 Sending : D5( Packet #5 )
+
+Logging Data on 23 April 2018 at 1:27:44:800 Sending : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 1:27:44:802 Sending : D4( Packet #4 )
+Logging Data on 23 April 2018 at 1:27:44:804 Received : Ack for Packet : D5( Ack #5 )
+
+Logging Data on 23 April 2018 at 1:27:44:804 Sending : D8( Packet #8 )
+
+Logging Data on 23 April 2018 at 1:27:45:600 Sending : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:46:288 Received : Ack for Packet : D1( Ack #1 )
+
+Logging Data on 23 April 2018 at 1:27:46:288 Sending : D9( Packet #9 )
+
+Debug log : Ack #8 Crashed
+
+Logging Data on 23 April 2018 at 1:27:46:966 Sending : D4( Packet #4 )
+
+Logging Data on 23 April 2018 at 1:27:46:972 Sending : D8( Packet #8 )
+Logging Data on 23 April 2018 at 1:27:46:972 Received : Ack for Packet : D9( Ack #9 )
+
+Logging Data on 23 April 2018 at 1:27:46:974 Sending : D10( Packet #10 )
+
+Logging Data on 23 April 2018 at 1:27:47:756 Sending : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:48:492 Received : Ack for Packet : D8( Ack #8 )
+Logging Data on 23 April 2018 at 1:27:48:498 Negative Ack : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:48:500 Sending : D10( Packet #10 )
+
+Logging Data on 23 April 2018 at 1:27:49:142 Sending : D4( Packet #4 )
+
+Logging Data on 23 April 2018 at 1:27:49:144 Sending : D10( Packet #10 )
+
+Debug log : Ack #7 Crashed
+Logging Data on 23 April 2018 at 1:27:49:920 Received : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:49:988 Sending : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:50:696 Received : Ack for Packet : D4( Ack #4 )
+Logging Data on 23 April 2018 at 1:27:50:776 Received : Ack for Packet : D10( Ack #10 )
+Logging Data on 23 April 2018 at 1:27:51:96 Received : Ack for Packet : D7( Ack #7 )
+Medium
+
+Medium Logs
+
+
+Hi, I am the Medium
+
+Logging Data on 23 April 2018 at 1:27:37:212 Intercepting : Hi Sender!
+
+Logging Data on 23 April 2018 at 1:27:40:338 Intercepting : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 1:27:40:538 Intercepting : D2( Packet #2 )
+
+Logging Data on 23 April 2018 at 1:27:40:850 Intercepting : D3( Packet #3 )
+
+Logging Data on 23 April 2018 at 1:27:41:50 Intercepting : D4( Packet #4 ) (XX Crashed XX)
+Logging Data on 23 April 2018 at 1:27:41:316 Intercepting : Ack for Packet : D1( Ack #1 ) XX CRASHED XX
+Logging Data on 23 April 2018 at 1:27:41:562 Intercepting : Ack for Packet : D2( Ack #2 )
+Logging Data on 23 April 2018 at 1:27:41:806 Intercepting : Ack for Packet : D3( Ack #3 )
+
+Logging Data on 23 April 2018 at 1:27:42:130 Intercepting : D5( Packet #5 )
+
+Logging Data on 23 April 2018 at 1:27:42:394 Intercepting : D6( Packet #6 )
+
+Logging Data on 23 April 2018 at 1:27:42:694 Intercepting : D1( Packet #1 )
+Logging Data on 23 April 2018 at 1:27:42:898 Intercepting : Ack for Packet : D5( Ack #5 ) XX CRASHED XX
+
+Logging Data on 23 April 2018 at 1:27:43:102 Intercepting : D4( Packet #4 ) (XX Crashed XX)
+Logging Data on 23 April 2018 at 1:27:43:334 Intercepting : Ack for Packet : D6( Ack #6 )
+Logging Data on 23 April 2018 at 1:27:43:594 Intercepting : Ack for Packet : D1( Ack #1 ) XX CRASHED XX
+
+Logging Data on 23 April 2018 at 1:27:43:916 Intercepting : D7( Packet #7 ) (XX Crashed XX)
+
+Logging Data on 23 April 2018 at 1:27:44:298 Intercepting : D5( Packet #5 )
+Logging Data on 23 April 2018 at 1:27:44:626 Intercepting : Ack for Packet : D5( Ack #5 )
+
+Logging Data on 23 April 2018 at 1:27:44:978 Intercepting : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 1:27:45:170 Intercepting : D4( Packet #4 ) (XX Crashed XX)
+
+Logging Data on 23 April 2018 at 1:27:45:374 Intercepting : D8( Packet #8 )
+Logging Data on 23 April 2018 at 1:27:45:706 Intercepting : Ack for Packet : D1( Ack #1 )
+Logging Data on 23 April 2018 at 1:27:45:906 Intercepting : Ack for Packet : D8( Ack #8 ) XX CRASHED XX
+
+Logging Data on 23 April 2018 at 1:27:46:182 Intercepting : D7( Packet #7 ) (XX Crashed XX)
+
+Logging Data on 23 April 2018 at 1:27:46:486 Intercepting : D9( Packet #9 )
+Logging Data on 23 April 2018 at 1:27:46:808 Intercepting : Ack for Packet : D9( Ack #9 )
+
+Logging Data on 23 April 2018 at 1:27:47:126 Intercepting : D4( Packet #4 ) (XX Crashed XX)
+
+Logging Data on 23 April 2018 at 1:27:47:392 Intercepting : D8( Packet #8 )
+
+Logging Data on 23 April 2018 at 1:27:47:592 Intercepting : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:47:916 Intercepting : Ack for Packet : D8( Ack #8 )
+Logging Data on 23 April 2018 at 1:27:48:122 Intercepting : Ack for Packet : D10( Ack #10 ) XX corrupted xx
+
+Logging Data on 23 April 2018 at 1:27:48:326 Intercepting : D7( Packet #7 )
+
+Logging Data on 23 April 2018 at 1:27:48:660 Intercepting : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:48:978 Intercepting : Ack for Packet : D7( Ack #7 ) XX CRASHED XX
+Logging Data on 23 April 2018 at 1:27:49:256 Intercepting : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:49:610 Intercepting : D4( Packet #4 )
+
+Logging Data on 23 April 2018 at 1:27:49:814 Intercepting : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:50:102 Intercepting : Ack for Packet : D4( Ack #4 )
+
+Logging Data on 23 April 2018 at 1:27:50:394 Intercepting : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:50:598 Intercepting : Ack for Packet : D10( Ack #10 )
+Logging Data on 23 April 2018 at 1:27:50:930 Intercepting : Ack for Packet : D7( Ack #7 )
+Receiver
+
+Receiver Logs
+
+
+Receiver Alive !
+
+Logging Data on 23 April 2018 at 1:27:37:16 Receiver requesting connection. Hi Sender!
+
+Logging Data on 23 April 2018 at 1:27:41:154 Received : D1( Packet #1 )
+Logging Data on 23 April 2018 at 1:27:41:154 Sending : Ack for Packet : D1( Ack #1 )
+
+Logging Data on 23 April 2018 at 1:27:41:154 Received : D2( Packet #2 )
+Logging Data on 23 April 2018 at 1:27:41:154 Sending : Ack for Packet : D2( Ack #2 )
+
+Logging Data on 23 April 2018 at 1:27:41:220 Received : D3( Packet #3 )
+Logging Data on 23 April 2018 at 1:27:41:220 Sending : Ack for Packet : D3( Ack #3 )
+
+
+Debug Log : Packet crashed
+
+Logging Data on 23 April 2018 at 1:27:42:500 Received : D5( Packet #5 )
+Logging Data on 23 April 2018 at 1:27:42:502 Sending : Ack for Packet : D5( Ack #5 )
+
+Logging Data on 23 April 2018 at 1:27:42:550 Received : D6( Packet #6 )
+Logging Data on 23 April 2018 at 1:27:42:550 Sending : Ack for Packet : D6( Ack #6 )
+
+Logging Data on 23 April 2018 at 1:27:43:426 Received : D1( Packet #1 )
+Logging Data on 23 April 2018 at 1:27:43:428 Sending : Ack for Packet : D1( Ack #1 )
+
+
+Debug Log : Packet crashed
+
+
+Debug Log : Packet crashed
+
+Logging Data on 23 April 2018 at 1:27:44:448 Received : D5( Packet #5 )
+Logging Data on 23 April 2018 at 1:27:44:448 Sending : Ack for Packet : D5( Ack #5 )
+
+Logging Data on 23 April 2018 at 1:27:45:532 Received : D1( Packet #1 )
+Logging Data on 23 April 2018 at 1:27:45:534 Sending : Ack for Packet : D1( Ack #1 )
+
+
+Debug Log : Packet crashed
+
+Logging Data on 23 April 2018 at 1:27:45:536 Received : D8( Packet #8 )
+Logging Data on 23 April 2018 at 1:27:45:538 Sending : Ack for Packet : D8( Ack #8 )
+
+
+Debug Log : Packet crashed
+
+Logging Data on 23 April 2018 at 1:27:46:646 Received : D9( Packet #9 )
+Logging Data on 23 April 2018 at 1:27:46:646 Sending : Ack for Packet : D9( Ack #9 )
+
+
+Debug Log : Packet crashed
+
+Logging Data on 23 April 2018 at 1:27:47:752 Received : D8( Packet #8 )
+Logging Data on 23 April 2018 at 1:27:47:754 Sending : Ack for Packet : D8( Ack #8 )
+
+Logging Data on 23 April 2018 at 1:27:47:754 Received : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:47:756 Sending : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:48:502 Received : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:48:502 Sending : Ack for Packet : D7( Ack #7 )
+
+Logging Data on 23 April 2018 at 1:27:49:80 Received : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:49:80 Sending : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:49:984 Received : D4( Packet #4 )
+Logging Data on 23 April 2018 at 1:27:49:984 Sending : Ack for Packet : D4( Ack #4 )
+
+Logging Data on 23 April 2018 at 1:27:49:988 Received : D10( Packet #10 )
+Logging Data on 23 April 2018 at 1:27:49:990 Sending : Ack for Packet : D10( Ack #10 )
+
+Logging Data on 23 April 2018 at 1:27:50:772 Received : D7( Packet #7 )
+Logging Data on 23 April 2018 at 1:27:50:772 Sending : Ack for Packet : D7( Ack #7 )
