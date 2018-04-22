@@ -1,0 +1,121 @@
+Burst Mode Active. Initialise sliding window.
+[1, 2, 3, 4]
+now  1
+now  2
+now  3
+now  4
+Ack # 1 crashed.
+Timer Blasted for Packet # 1
+Resending Packet number 1
+Timer Blasted for Packet # 2
+Resending Packet number 2
+Timer Blasted for Packet # 3
+Resending Packet number 3
+Timer Blasted for Packet # 4
+Resending Packet number 4
+Ack # 1 crashed.
+Timer Blasted for Packet # 1
+Resending Packet number 1
+Timer Blasted for Packet # 2
+Resending Packet number 2
+Timer Blasted for Packet # 3
+Resending Packet number 3
+Timer Blasted for Packet # 4
+Resending Packet number 4
+Timer Blasted for Packet # 1
+Resending Packet number 1
+Timer Blasted for Packet # 2
+Resending Packet number 2
+Timer Blasted for Packet # 3
+Resending Packet number 3
+Timer Blasted for Packet # 4
+Resending Packet number 4
+now  1
+ack got 1
+Nice job bro
+keep it up
+now  2
+Timer Blasted for Packet # 1
+No issues. Packet number 1 successful.
+Timer Blasted for Packet # 2
+Resending Packet number 2
+Timer Blasted for Packet # 3
+Resending Packet number 3
+Timer Blasted for Packet # 4
+Resending Packet number 4
+Timer Blasted for Packet # 1
+No issues. Packet number 1 successful.
+ack got 2
+Nice job bro
+keep it up
+now  3
+Timer Blasted for Packet # 2
+No issues. Packet number 2 successful.
+ack got 3
+Nice job bro
+keep it up
+now  4
+Timer Blasted for Packet # 2
+No issues. Packet number 2 successful.
+Timer Blasted for Packet # 3
+No issues. Packet number 3 successful.
+Timer Blasted for Packet # 4
+Resending Packet number 4
+ack got 4
+Nice job bro
+keep it up
+now  5
+Timer Blasted for Packet # 3
+No issues. Packet number 3 successful.
+Ack # 5 crashed.
+Timer Blasted for Packet # 4
+No issues. Packet number 4 successful.
+Timer Blasted for Packet # 4
+No issues. Packet number 4 successful.
+Timer Blasted for Packet # 5
+Resending Packet number 5
+ack got 5
+Nice job bro
+keep it up
+now  6
+ack got 6
+Nice job bro
+keep it up
+now  7
+Ack # 7 crashed.
+Timer Blasted for Packet # 5
+No issues. Packet number 5 successful.
+Timer Blasted for Packet # 6
+No issues. Packet number 6 successful.
+Timer Blasted for Packet # 7
+Resending Packet number 7
+Ack # 7 crashed.
+Timer Blasted for Packet # 7
+Resending Packet number 7
+ack got 7
+Nice job bro
+keep it up
+now  8
+Ack # 8 crashed.
+Timer Blasted for Packet # 7
+No issues. Packet number 7 successful.
+Timer Blasted for Packet # 8
+Resending Packet number 8
+ack got 8
+Nice job bro
+keep it up
+now  9
+Timer Blasted for Packet # 8
+No issues. Packet number 8 successful.
+Timer Blasted for Packet # 9
+Resending Packet number 9
+ack got 9
+Nice job bro
+keep it up
+now  10
+ack got 10
+Nice job bro
+Timer Blasted for Packet # 9
+No issues. Packet number 9 successful.
+Timer Blasted for Packet # 10
+No issues. Packet number 10 successful.

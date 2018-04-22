@@ -30,6 +30,7 @@ def server_coming_alive():
     session['currentPacket'] = 0
     session['currentAck'] = 0
     session['expectedAck'] = 0
+    session['lastReceivedAck'] = 0
     session['receivedAcks'] = []
     emit('server_started')
     # emit('complete_connection', {'data': 'Hi Receiver!'})
@@ -137,7 +138,6 @@ def handling_timer_Blast_from_sender(message):
     Assumption : packet always come in sorted order
 
     """
-    print("received yet", session['receivedAcks'])
     if message['currentPacket'] not in session['receivedAcks']:
         print("Resending Packet number", message['currentPacket'])
         emit('sendPacketToSenderFrontend', {
@@ -177,7 +177,16 @@ def handling_packet_at_receiver_backend(message):
     To   : Receiver frontend
     """
     session['currentAck'] = int(message['currentPacket'])
-    emit('sendPacketToReceiverFrontend', {
+    session['lastReceivedAck'] = session.get('lastReceivedAck',0)
+
+    if(int(message['currentPacket']) == session['lastReceivedAck']+1):
+        emit('sendPacketToReceiverFrontend', {
+        'data': message['data'], 
+        'currentPacket': message['currentPacket'], 
+        'currentAck': session['currentAck']
+        })
+    else:
+        emit('sendRejectedPacketToReceiverFrontend', {
         'data': message['data'], 
         'currentPacket': message['currentPacket'], 
         'currentAck': session['currentAck']
@@ -225,7 +234,10 @@ def handling_ack_at_sender_backend(message):
     
     # slide window as well
     # actual sliding will be probelmatic, so i just send next packet
+
+    print("ack got", message["currentAck"])
     session['receivedAcks'].append(int(message['currentPacket']))
+    session['lastReceivedAck'] = max(session['receivedAcks'])
 
     print("Nice job bro")
     if( int(session['currentPacket']) < int(session['totalNumberOfPackets'])):
@@ -303,7 +315,7 @@ if __name__ == '__main__':
     Event : Start the server
     Task  : Keep the server running, debugging ON in dev mode
     """
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=False)
 
 # ###################################################################################
 

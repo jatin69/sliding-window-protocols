@@ -318,6 +318,32 @@
                 return false;
             });
 
+            socket.on("sendRejectedPacketToReceiverFrontend", function (message) {
+                /*
+              From : Receiver backend  : packet received here : Ack originates here
+              Task : Receiver Frontend, append Logs at receiver
+              To   : Send Acknowledgement to Middle Layer Backend
+              */
+                // this does nothing, and waits for timer to go off
+                // but in real, this should act even before timer
+
+                $("#ReceiverLogs").append(
+                    "<br><br>" +
+                    $("<div/>")
+                        .text(
+                            getCurrentDateTime() +
+                            "Received : " +
+                            message["data"] +
+                            "( Packet #" +
+                            message["currentPacket"] +
+                            " ) xxREJECTINGxx"
+                        )
+                        .html()
+                );
+
+
+            });
+
             socket.on("sendPacketToReceiverFrontend", function (message) {
                 /*
                   From : Receiver backend  : packet received here : Ack originates here
@@ -355,7 +381,7 @@
                 );
                 socket.emit("sendAckToMiddleLayerBackend", {
                     data: ackMessage,
-                    currentPacket : message["currentPacket"],
+                    currentPacket: message["currentPacket"],
                     currentAck: message["currentAck"]
                 });
 
@@ -426,7 +452,7 @@
                         );
                         socket.emit("sendNegAckToSenderBackend", {
                             data: message["data"],
-                            currentPacket : message['currentPacket'],
+                            currentPacket: message['currentPacket'],
                             currentAck: message["currentAck"]
                         });
 
@@ -448,7 +474,7 @@
                         );
                         socket.emit("sendAckToSenderBackend", {
                             data: message["data"],
-                            currentPacket : message['currentPacket'],
+                            currentPacket: message['currentPacket'],
                             currentAck: message["currentAck"]
                         });
                     }
@@ -499,7 +525,7 @@
                 disableAllButtons(false);
             });
 
-             socket.on("sendNegAckToSenderFrontend", function (message) {
+            socket.on("sendNegAckToSenderFrontend", function (message) {
                 /*
                   From : Received Negative Ack from Sender Backend    : Ack received here
                   Task : append Ack Logs at Sender frontend

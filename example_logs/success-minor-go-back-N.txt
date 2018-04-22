@@ -1,0 +1,84 @@
+Networks
+
+Average ping/pong latency: 54.2ms
+Selective Repeat Protocol
+
+ASych Mode: gevent
+Sender
+
+Sender Logs
+
+
+Server Started !
+
+Logging Data on 23 April 2018 at 2:54:33:610 Connection established. Hello Receiver!
+
+Logging Data on 23 April 2018 at 2:54:34:832 Sending : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 2:54:34:836 Sending : D2( Packet #2 )
+Logging Data on 23 April 2018 at 2:54:35:770 Received : Ack for Packet : D1( Ack #1 )
+
+Logging Data on 23 April 2018 at 2:54:35:770 Sending : D3( Packet #3 )
+
+Logging Data on 23 April 2018 at 2:54:36:896 Sending : D2( Packet #2 )
+Logging Data on 23 April 2018 at 2:54:37:592 Received : Ack for Packet : D2( Ack #2 )
+
+Logging Data on 23 April 2018 at 2:54:37:592 Sending : D4( Packet #4 )
+
+Logging Data on 23 April 2018 at 2:54:37:904 Sending : D3( Packet #3 )
+Logging Data on 23 April 2018 at 2:54:38:646 Received : Ack for Packet : D3( Ack #3 )
+
+Logging Data on 23 April 2018 at 2:54:39:648 Sending : D4( Packet #4 )
+Logging Data on 23 April 2018 at 2:54:40:320 Received : Ack for Packet : D4( Ack #4 )
+Medium
+
+Medium Logs
+
+
+Hi, I am the Medium
+
+Logging Data on 23 April 2018 at 2:54:33:516 Intercepting : Hi Sender!
+
+Logging Data on 23 April 2018 at 2:54:35:48 Intercepting : D1( Packet #1 )
+
+Logging Data on 23 April 2018 at 2:54:35:346 Intercepting : D2( Packet #2 )
+Logging Data on 23 April 2018 at 2:54:35:662 Intercepting : Ack for Packet : D1( Ack #1 )
+
+Logging Data on 23 April 2018 at 2:54:36:36 Intercepting : D3( Packet #3 )
+
+Logging Data on 23 April 2018 at 2:54:37:160 Intercepting : D2( Packet #2 )
+Logging Data on 23 April 2018 at 2:54:37:488 Intercepting : Ack for Packet : D2( Ack #2 )
+
+Logging Data on 23 April 2018 at 2:54:37:850 Intercepting : D4( Packet #4 )
+
+Logging Data on 23 April 2018 at 2:54:38:218 Intercepting : D3( Packet #3 )
+Logging Data on 23 April 2018 at 2:54:38:534 Intercepting : Ack for Packet : D3( Ack #3 )
+
+Logging Data on 23 April 2018 at 2:54:39:866 Intercepting : D4( Packet #4 )
+Logging Data on 23 April 2018 at 2:54:40:264 Intercepting : Ack for Packet : D4( Ack #4 )
+Receiver
+
+Receiver Logs
+
+
+Receiver Alive !
+
+Logging Data on 23 April 2018 at 2:54:33:498 Receiver requesting connection. Hi Sender!
+
+Logging Data on 23 April 2018 at 2:54:35:352 Received : D1( Packet #1 )
+Logging Data on 23 April 2018 at 2:54:35:354 Sending : Ack for Packet : D1( Ack #1 )
+
+Logging Data on 23 April 2018 at 2:54:35:410 Received : D2( Packet #2 ) xxREJECTINGxx
+
+Logging Data on 23 April 2018 at 2:54:36:88 Received : D3( Packet #3 ) xxREJECTINGxx
+
+Logging Data on 23 April 2018 at 2:54:37:228 Received : D2( Packet #2 )
+Logging Data on 23 April 2018 at 2:54:37:228 Sending : Ack for Packet : D2( Ack #2 )
+
+Logging Data on 23 April 2018 at 2:54:37:956 Received : D4( Packet #4 ) xxREJECTINGxx
+
+Logging Data on 23 April 2018 at 2:54:38:272 Received : D3( Packet #3 )
+Logging Data on 23 April 2018 at 2:54:38:276 Sending : Ack for Packet : D3( Ack #3 )
+
+Logging Data on 23 April 2018 at 2:54:39:962 Received : D4( Packet #4 )
+Logging Data on 23 April 2018 at 2:54:39:962 Sending : Ack for Packet : D4( Ack #4 )
