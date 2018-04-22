@@ -4,7 +4,7 @@ from flask import Flask, render_template, session, request
 from flask_socketio import SocketIO, emit, disconnect
 import time
 import random
- 
+
 # Set this variable to "threading", "eventlet" or "gevent" 
 # I used gevent
 async_mode = None
@@ -15,6 +15,7 @@ app.config['SECRET_KEY'] = 'secret!'
 socketio = SocketIO(app, async_mode=async_mode)
 thread = None
 thread_lock = Lock()
+
 
 # ################################# Establish Connection  #####################################
 
@@ -29,6 +30,7 @@ def server_coming_alive():
     session['currentPacket'] = 0
     session['currentAck'] = 0
     session['expectedAck'] = 0
+    session['receivedAcks'] = []
     emit('server_started')
     # emit('complete_connection', {'data': 'Hi Receiver!'})
 
@@ -52,7 +54,7 @@ def connection_request_to_sender_backend(message):
     """
     if message['data'] == 'Hi Sender!':
         emit('connectionRequestToSenderFrontend', {
-             'data': 'Connection established. Hello Receiver!'})
+            'data': 'Connection established. Hello Receiver!'})
     else:
         emit('connection_failure', {'data': 'Connection denied, Retry!'})
 
@@ -68,7 +70,29 @@ def ping_pong():
     """
     emit('HeyPong')
 
+
 # ###################################### Transmission #######################################
+
+
+@socketio.on('sendPacketToSenderBackendBurst')
+def handling_packet_at_sender_backend_in_burst_mode(message):
+    """
+    From : Sender Input form OR retransmissions
+    Task : initialise session variables
+    To   : send Packet to sender frontend
+    """
+    print("Burst Mode Active. Initialise sliding window.")
+    # print(message)
+    initial = int(session.get('currentPacket', 0 )) + 1
+    session['totalNumberOfPackets'] = int(message['totalNumberOfPackets']) + int(session.get('currentPacket', 0))
+    session['slidingWindow'] = [ i+initial for i in range(int(message['windowSize']))]
+
+    print(session['slidingWindow'])
+    for packetNumber in session['slidingWindow']:
+        handling_packet_at_sender_backend({
+            'currentPacketNumber' : packetNumber
+        })
+        time.sleep(.02)
 
 
 @socketio.on('sendPacketToSenderBackend')
@@ -78,13 +102,15 @@ def handling_packet_at_sender_backend(message):
     Task : initialise session variables
     To   : send Packet to sender frontend
     """
-    session['currentPacket'] = session.get('currentPacket', 0) + 1
-    session['expectedAck'] = session['currentPacket']
-    emit('sendPacketToSenderFrontend',  {
-        'data': message['data'],
-        'currentPacket': session['currentPacket']
-    })
+    # session['currentPacket'] = session.get('currentPacket',0) + 1
 
+    session['currentPacket'] = message["currentPacketNumber"]
+    print("now ", session['currentPacket'])
+    emit('sendPacketToSenderFrontend', {
+        'data': 'D' + str(session['currentPacket']),
+        'currentPacket': session['currentPacket']})
+    session['expectedAck'] = session['currentPacket']
+    
 
 @socketio.on('packetTimerBlast')
 def handling_timer_Blast_from_sender(message):
@@ -104,15 +130,18 @@ def handling_timer_Blast_from_sender(message):
 
     Case : Missing acknowledgement case
     Explanation : Ack is incremented from receiver side, but is never reached at sender.
-    so we decrement the session currentAck whenver ack crashes at middle layer
+    so we decrement the session currentAck whenever ack crashes at middle layer
     that way, currentExpectedAck (equal to currentPack for stop and wait) 
     is always > currentAck
 
+    Assumption : packet always come in sorted order
+
     """
-    if message['currentPacket'] > session['currentAck']:
+    print("received yet", session['receivedAcks'])
+    if message['currentPacket'] not in session['receivedAcks']:
         print("Resending Packet number", message['currentPacket'])
         emit('sendPacketToSenderFrontend', {
-             'data': message['data'], 'currentPacket': message['currentPacket']})
+            'data': message['data'], 'currentPacket': message['currentPacket']})
     else:
         print("No issues. Packet number", message['currentPacket'], "successful.")
 
@@ -126,7 +155,7 @@ def handling_packet_at_middle_layer_backend(message):
     """
     time.sleep(.1)
     emit('SendPacketToMiddleLayerFrontend', {
-         'data': message['data'], 'currentPacket': message['currentPacket']})
+        'data': message['data'], 'currentPacket': message['currentPacket']})
     time.sleep(.1)
 
 
@@ -147,9 +176,12 @@ def handling_packet_at_receiver_backend(message):
     Task : packet successfully received. Increment the ackNumber to be sent.
     To   : Receiver frontend
     """
-    session['currentAck'] = session.get('currentAck', 0) + 1
-    emit('sendPacketToReceiverFrontend',
-         {'data': message['data'], 'currentPacket': message['currentPacket'], 'currentAck': session['currentAck']})
+    session['currentAck'] = int(message['currentPacket'])
+    emit('sendPacketToReceiverFrontend', {
+        'data': message['data'], 
+        'currentPacket': message['currentPacket'], 
+        'currentAck': session['currentAck']
+        })
 
 
 @socketio.on('sendAckToMiddleLayerBackend')
@@ -161,7 +193,9 @@ def handling_ack_at_middle_layer_backend(message):
     """
     time.sleep(.1)
     emit('sendAckToMiddleLayerFrontend', {
-         'data': message['data'], 'currentAck': message['currentAck']})
+        'data': message['data'],
+        'currentPacket' : message['currentPacket'],
+         'currentAck': message['currentAck']})
     time.sleep(.1)
 
 
@@ -172,9 +206,12 @@ def handling_ack_crash_at_middle_layer(message):
     Task : handle Ack crash and display debug log at frontend
     To   : Sender frontend for debug log
     """
+    session['currentAck'] = int(session['currentAck'])-1 
     print("Ack #", message['currentAck'], "crashed.")
-    session['currentAck'] = session['currentAck']-1
-    emit('ackNotReceivedBySender')
+    emit('ackNotReceivedBySender', {
+        'currentAck': message['currentAck']
+    })
+    
 
 @socketio.on('sendAckToSenderBackend')
 def handling_ack_at_sender_backend(message):
@@ -184,7 +221,39 @@ def handling_ack_at_sender_backend(message):
     To   : Sender frontend
     """
     emit('sendAckToSenderFrontend', {
-         'data': message['data'], 'currentAck': message['currentAck']})
+        'data': message['data'], 'currentAck': message['currentAck']})
+    
+    # slide window as well
+    # actual sliding will be probelmatic, so i just send next packet
+    session['receivedAcks'].append(int(message['currentPacket']))
+
+    print("Nice job bro")
+    if( int(session['currentPacket']) < int(session['totalNumberOfPackets'])):
+        print("keep it up")
+        handling_packet_at_sender_backend({
+            'currentPacketNumber' : int(session['currentPacket']) + 1
+        })
+    else:
+        # all done
+        emit('sendCompletionMessage')
+
+
+@socketio.on('sendNegAckToSenderBackend')
+def handling_negative_ack_at_sender_backend(message):
+    """
+    From : Middle Layer frontend
+    Task : Pass on the message and ackNumber
+    To   : Sender frontend
+    """
+    emit('sendNegAckToSenderFrontend', {
+        'data': message['data'], 'currentPacket': message['currentPacket'] , 'currentAck': message['currentAck']})
+    
+    # slide window as well
+    # actual sliding will be probelmatic, so i just send next packet
+    
+    handling_packet_at_sender_backend({
+        'currentPacketNumber' : int(message['currentPacket'])
+    })
 
 
 # ################################# Disconnection events #################################
@@ -198,7 +267,7 @@ def handling_disconnect_request_at_backend(message):
     To   : disconnection frontend
     """
     emit('disconnecting_confirmation', {
-         'data': message['data'] + 'Disconnected!'})
+        'data': message['data'] + 'Disconnected!'})
 
 
 # Server disconnected
@@ -214,10 +283,10 @@ def test_disconnect():
 
 # ############################ Serving go back N #####################################
 
-# Server go-back-N.html
-# when namespaces are ready - change it to @app.route('/go-back-N')
+# Serve selective-repeat.html
+# when namespaces are ready - change it to @app.route('/selective-repeat')
 @app.route('/')
-def index():
+def selective_repeat():
     """
     From : User navigates to "localhost:5000" in a new tab
     Task : Serve the "templates/index.html" page to user

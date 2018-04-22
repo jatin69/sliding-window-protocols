@@ -65,8 +65,9 @@
                 // uncomment these in STOP AND WAIT
                 $("#SenderDisconnectBtn").attr("disabled", status);
                 $("#ReceiverDisconnectBtn").attr("disabled", status);
+                $("#senderInputNumberOfPackets").attr("disabled", status);
+                $("#senderInputWindowSize").attr("disabled", status);
                 $("#senderInputDataBtn").attr("disabled", status);
-                $("#senderFrontendData").attr("disabled", status);
                 $("#MiddleLayerDisconnectBtn").attr("disabled", status);
             }
 
@@ -216,12 +217,20 @@
                   To   : Sender Backend
                   */
 
-                // sending to sender backend
-                var info = $("#senderInputData").val();
-                socket.emit("sendPacketToSenderBackend", { data: info });
-
                 // disable buttons until acknowledgement is received of current packet
                 disableAllButtons(true);
+
+                // sending to sender backend
+                var SenderNumberOfPackets = $("#senderInputNumberOfPackets").val();
+                var senderWindowSize = $("#senderInputWindowSize").val();
+                // console.log(SenderNumberOfPackets);
+                // console.log(senderWindowSize);
+
+                socket.emit("sendPacketToSenderBackendBurst", {
+                    totalNumberOfPackets: SenderNumberOfPackets,
+                    windowSize: senderWindowSize
+                });
+
                 return false;
             });
 
@@ -346,6 +355,7 @@
                 );
                 socket.emit("sendAckToMiddleLayerBackend", {
                     data: ackMessage,
+                    currentPacket : message["currentPacket"],
                     currentAck: message["currentAck"]
                 });
 
@@ -385,6 +395,7 @@
                             .text(
                                 getCurrentDateTime() +
                                 "Intercepting : " +
+                                message["data"] +
                                 "( Ack #" +
                                 message["currentAck"] +
                                 " )" +
@@ -396,27 +407,55 @@
                         currentAck: message["currentAck"]
                     });
                 } else {
-                    $("#MiddleLayerLogs").append(
-                        "<br>" +
-                        $("<div/>")
-                            .text(
-                                getCurrentDateTime() +
-                                "Intercepting : " +
-                                message["data"] +
-                                "( Ack #" +
-                                message["currentAck"] +
-                                " )"
-                            )
-                            .html()
-                    );
-                    socket.emit("sendAckToSenderBackend", {
-                        data: message["data"],
-                        currentAck: message["currentAck"]
-                    });
+
+                    var r = randomNumberFromRange(-2, 10);
+                    if (r < 0) {
+                        // corrupted
+                        $("#MiddleLayerLogs").append(
+                            "<br>" +
+                            $("<div/>")
+                                .text(
+                                    getCurrentDateTime() +
+                                    "Intercepting : " +
+                                    message["data"] +
+                                    "( Ack #" +
+                                    message["currentAck"] +
+                                    " ) XX corrupted xx"
+                                )
+                                .html()
+                        );
+                        socket.emit("sendNegAckToSenderBackend", {
+                            data: message["data"],
+                            currentPacket : message['currentPacket'],
+                            currentAck: message["currentAck"]
+                        });
+
+                    }
+                    else {
+                        // not corrupted
+                        $("#MiddleLayerLogs").append(
+                            "<br>" +
+                            $("<div/>")
+                                .text(
+                                    getCurrentDateTime() +
+                                    "Intercepting : " +
+                                    message["data"] +
+                                    "( Ack #" +
+                                    message["currentAck"] +
+                                    " )"
+                                )
+                                .html()
+                        );
+                        socket.emit("sendAckToSenderBackend", {
+                            data: message["data"],
+                            currentPacket : message['currentPacket'],
+                            currentAck: message["currentAck"]
+                        });
+                    }
                 }
             });
 
-            socket.on("ackNotReceivedBySender", function () {
+            socket.on("ackNotReceivedBySender", function (message) {
                 /*
                   From : Ack Crash Handler
                   Task : append failure Logs at sender
@@ -426,7 +465,7 @@
                 $("#SenderLogs").append(
                     "<br><br>" +
                     $("<div/>")
-                        .text("Debug Log : Ack crashed ")
+                        .text("Debug log : " + "Ack #" + message['currentAck'] + " Crashed ")
                         .html()
                 );
                 return false;
@@ -452,8 +491,34 @@
                         )
                         .html()
                 );
-                // ack received - re enable the buttons
+            });
+
+            socket.on("sendCompletionMessage", function () {
+                // print any message, if needed
+                // and re-enable all buttons
                 disableAllButtons(false);
+            });
+
+             socket.on("sendNegAckToSenderFrontend", function (message) {
+                /*
+                  From : Received Negative Ack from Sender Backend    : Ack received here
+                  Task : append Ack Logs at Sender frontend
+                  To   : None, one packet journey completed
+                  */
+
+                $("#SenderLogs").append(
+                    "<br>" +
+                    $("<div/>")
+                        .text(
+                            getCurrentDateTime() +
+                            "Negative Ack : " +
+                            message["data"] +
+                            "( Ack #" +
+                            message["currentAck"] +
+                            " )"
+                        )
+                        .html()
+                );
             });
 
             // =================================== Disconnection events =======================================
@@ -548,7 +613,7 @@
         </div>
         <div class="row">
             <div class="col-sm-6">
-                <h2 class="text-left">Stop and Wait Protocol</h2>
+                <h2 class="text-left">Selective Repeat Protocol</h2>
             </div>
             <div class="col-sm-6">
                 <p class="text-right"> ASych Mode: {{ async_mode}}
@@ -567,7 +632,8 @@
                 <div class="row">
                     <!-- Sender send data button -->
                     <form id="senderInput" method="POST" action='#'>
-                        <input type="text" style="width: 8em" name="senderInputData" id="senderInputData" placeholder="Message">
+                        <input type="text" style="width: 4em" name="senderInputNumberOfPackets" id="senderInputNumberOfPackets" placeholder="# of Packets">
+                        <input type="text" style="width: 4em" name="senderInputWindowSize" id="senderInputWindowSize" placeholder="Window size">
                         <input type="submit" id="senderInputDataBtn" value="SEND">
                     </form>
                     <!-- Sender Disconnect button -->
