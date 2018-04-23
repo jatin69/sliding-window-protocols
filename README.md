@@ -4,71 +4,17 @@
 
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
-## new advancements
-- sliding window works for gobackN and selective repeat.
-- output as expected for base test cases. logs attached.
-- might need more time for complex manual test cases. - later
-- all good. quick UI revamp and ready.
+For more details, refer the [detailed readme](./README-detailed.md)
 
-## quick todo
+## How to run
 
-* heroku deployment
-* good UX / UI to see the logs
-
-## Status
-
-> > not running as of 2AM 16 april
-
-> > running as of 3pm 16 april (maybe its a temp fix)
-
-> > kind of temporary fix. Will get to know more in sliding window
-
-## General Implementations
-
-* [x] need to make Packet # and ACK # separate
-* [x] show message : resending >>>> in sender logs
-* [x] prettify everything with bootstrap
-* [x] give option between custom message & Packet number on button
-* [x] refactor done
-* [x] medium now part of handshake
-* [x] make packets and acknowledgement
-* [x] automate packets as P1, P2, etc. & ack as A1, A2, etc.
-* [x] Middle layer needs to work out - drop ack & message
-* [x] start a clock each time a packet is sent
-* [x] threaded timer
-* [x] resend the packet if clock is over and acknowledgement is not received
-* [x] put proper long comments
-* [x] to be told about crashing in the medium logs
-* [x] refactoring
-* [x] index.html
-  * [x] sorted by events
-  * [x] documented
-  * [x] formatted
-  * [x] prettify from separate pretty.js
-* [x] app.py
-  * [x] sorted by events
-  * [x] documented
-  * [x] formatted
-* [x] pretty.js
-  * [x] prettier formatting is an acquired taste
-* [x] decide flow of Packet and Acknowledgement
-  * [x] checkpoints
-  * [x] put exact packet numbers in all messages
-  * [x] Packet at sender backend
-  * [x] packet at receiver backend
-  * [x] ack at receiver backend == current pack
-  * [x] ack at sender backend
-  * [x] add packet crashing
-  * [x] add acknowledgement crashing
-  * [x] tested for continuous bursts. All good and async.
-* [ ] add capability to timer so it can uniquely identify at state of packet when it is blasted off. Do retain the packet numbers.
-
-## Additions
-
-* colors for ack, message, and crashes
-* put socketIO functions in separate file if possible
-* try sliding - works well - amazing
-* status in table format - scrollable
+* git clone the repo and navigate to directory
+* make sure you have pipenv installed, or run `brew install pipenv`
+* type `pipenv shell` to activate the virtual environment
+* install requirements from `requirements.txt` or pip lock file
+* run `python app.py` and navigate to `localhost:5000` in browser
+* disable debugging in `app.py` if you don't want messages in terminal
+* similarly, run `stop-and-wait.py`, `go-back-N.py`, and `selective-repeat.py`
 
 ## Transmission Flow
 
@@ -83,28 +29,8 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 1.  sendAckToSenderBackend
 1.  sendAckToSenderFrontend
 
-## How to run
+## Future scope
 
-* git clone the repo
-* navigate to directory
-* make sure you have pipenv installed, or run `brew install pipenv`
-* type `pipenv shell` to activate the virtual environment
-* install requirements from requirements.txt or pip lock file
-* run `python app.py` and navigate to `localhost:5000` in browser
-* disable debugging in app.py if you don't want messages in terminal
-
-## Deployment
-
-* **In dev mode** (Active currently)
-
-  * Each protocol has different python file, namely `stop-and-wait.py`, `go-back-N.py`
-  * These files serve respective html files as well
-  * To run a protocol, it's py file needs to be run and the access point for each is `localhost:5000/`
-
-* **In Deployment Mode**
-  * All python files for protocols can be merged with each having a different namespace.
-  * Now a single `app.py` is sufficient.
-  * Similarly, modify html files to serve for different namespaces.
-  * Protocols will be then served at `localhost:5000/stop-and-wait`, `localhost:5000/go-back-N`
-  * Every protocol running on same socket but with different namespace.
-  * dope.
+* colors for ack, message, and crashes
+* put socketIO functions in separate file if possible
+* Improve UI design : status in scrollable table format

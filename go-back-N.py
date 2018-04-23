@@ -93,7 +93,8 @@ def handling_packet_at_sender_backend_in_burst_mode(message):
         handling_packet_at_sender_backend({
             'currentPacketNumber' : packetNumber
         })
-        time.sleep(.02)
+        # time.sleep(.02)
+        time.sleep(.2)
 
 
 @socketio.on('sendPacketToSenderBackend')
