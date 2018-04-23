@@ -4,6 +4,12 @@
 
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
+## new advancements
+- sliding window works for gobackN and selective repeat.
+- output as expected for base test cases. logs attached.
+- might need more time for complex manual test cases. - later
+- all good. quick UI revamp and ready.
+
 ## quick todo
 
 * heroku deployment

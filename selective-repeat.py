@@ -303,7 +303,7 @@ if __name__ == '__main__':
     Event : Start the server
     Task  : Keep the server running, debugging ON in dev mode
     """
-    socketio.run(app, debug=True)
+    socketio.run(app, debug=False)
 
 # ###################################################################################
 

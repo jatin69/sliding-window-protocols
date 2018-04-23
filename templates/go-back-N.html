@@ -10,6 +10,64 @@
     <script type="text/javascript" src="./../static/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
 
+    <!-- changing to RaleWay font -->
+    <link href="./../static/Skeleton-2.0.4/fonts/googleRalewayFont.css" rel="stylesheet" type="text/css">
+    <!-- <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900'
+     rel='stylesheet' type='text/css'> -->
+    <style>
+        /*  */
+
+        body {
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .thin {
+            font-weight: 100;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        h1 {
+            font-size: 44px;
+            font-weight: 200;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        h2 {
+            font-size: 33px;
+            font-weight: 300;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        h3 {
+            font-size: 22px;
+            font-weight: 700;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        h4,
+        h5 {
+            font-weight: 800;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .bold,
+        strong {
+            font-weight: 600;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .extrabold {
+            font-weight: 800;
+            font-family: 'Raleway', sans-serif;
+        }
+
+        .ultrabold {
+            font-weight: 900;
+            font-family: 'Raleway', sans-serif;
+        }
+    </style>
+    <!-- font done -->
+
     <!-- Starting socket IO operations -->
     <script type="text/javascript" charset="utf-8">
         // once the document is ready, execute the following
@@ -625,31 +683,25 @@
     <!-- Page Container -->
     <div class="container">
 
+        <!-- Heading row -->
         <div class="row">
-            <!-- Heading row -->
             <div class="col-sm-6">
+                <br>
                 <h1 class="text-left">Networks </h1>
+
+                <h2 class="text-left">Go Back N Protocol</h2>
             </div>
 
             <div class="col-sm-6">
+                <br>
                 <p class="text-right"> Average ping/pong latency:
                     <span id="ping-pong"></span>ms
+                    <br>ASych Mode: {{ async_mode}}
                 </p>
             </div>
         </div>
-        <div class="row">
-            <div class="col-sm-6">
-                <h2 class="text-left">Selective Repeat Protocol</h2>
-            </div>
-            <div class="col-sm-6">
-                <p class="text-right"> ASych Mode: {{ async_mode}}
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <hr>
-        </div>
-
+        <br>
+        <br>
         <!-- Work Row -->
         <div class="row">
             <!-- sender -->

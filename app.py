@@ -222,7 +222,7 @@ def index():
     Task : Serve the "templates/index.html" page to user
     To   : None. Wait for events to start.
     """
-    return render_template('go-back-N.html', async_mode=socketio.async_mode)
+    return render_template('index.html', async_mode=socketio.async_mode)
 
 
 # ################################# Main function #####################################

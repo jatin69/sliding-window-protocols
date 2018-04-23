@@ -9,6 +9,64 @@
     <script type="text/javascript" src="./../static/socket.io/1.3.5/socket.io.min.js"></script>
     <script type="text/javascript" src="./../static/bootstrap-4.0.0-dist/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="./../static/bootstrap-4.0.0-dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Playfair+Display|Raleway" rel="stylesheet"> 
+<!-- changing to RaleWay font -->
+<link href="./../static/Skeleton-2.0.4/fonts/googleRalewayFont.css" rel="stylesheet" type="text/css">
+<!-- <link href='http://fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600,800,700,900'
+     rel='stylesheet' type='text/css'> -->
+<style>
+    /*  */
+
+    body {
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .thin {
+        font-weight: 100;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    h1 {
+        font-size: 44px;
+        font-weight: 200;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    h2 {
+        font-size: 33px;
+        font-weight: 300;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    h3 {
+        font-size: 22px;
+        font-weight: 700;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    h4,
+    h5 {
+        font-weight: 800;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .bold,
+    strong {
+        font-weight: 600;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .extrabold {
+        font-weight: 800;
+        font-family: 'Raleway', sans-serif;
+    }
+
+    .ultrabold {
+        font-weight: 900;
+        font-family: 'Raleway', sans-serif;
+    }
+</style>
+<!-- font done -->
 
     <!-- Starting socket IO operations -->
     <script type="text/javascript" charset="utf-8">
@@ -65,8 +123,8 @@
                 // uncomment these in STOP AND WAIT
                 $("#SenderDisconnectBtn").attr("disabled", status);
                 $("#ReceiverDisconnectBtn").attr("disabled", status);
+                $("#senderInputData").attr("disabled", status);
                 $("#senderInputDataBtn").attr("disabled", status);
-                $("#senderFrontendData").attr("disabled", status);
                 $("#MiddleLayerDisconnectBtn").attr("disabled", status);
             }
 
@@ -624,7 +682,9 @@
 
                     <h2>Receiver Logs</h2>
                     <div class="col-sm-12">
-                        <div id="ReceiverLogs"></div>
+                        <div id="ReceiverLogs">
+                            
+                        </div>
                     </div>
                 </div>
             </div>
