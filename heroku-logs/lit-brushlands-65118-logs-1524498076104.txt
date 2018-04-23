@@ -1,0 +1,11 @@
+2018-04-23T15:38:07.334511+00:00 heroku[router]: at=error code=H20 desc="App boot timeout" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=16bb4c58-8a28-4955-9400-b1943c88c479 fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=https
+2018-04-23T15:38:42.958520+00:00 heroku[web.1]: Error R10 (Boot timeout) -> Web process failed to bind to $PORT within 60 seconds of launch
+2018-04-23T15:38:42.958520+00:00 heroku[web.1]: Stopping process with SIGKILL
+2018-04-23T15:38:43.094215+00:00 heroku[web.1]: Process exited with status 137
+2018-04-23T15:38:43.337101+00:00 heroku[web.1]: State changed from starting to crashed
+2018-04-23T15:38:43.489947+00:00 heroku[router]: at=error code=H20 desc="App boot timeout" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=b5868d6d-f3b4-464a-bc28-a1a134c64597 fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=http
+2018-04-23T15:38:43.774573+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=088d1e09-9e3e-44e8-9204-3844872b7fcc fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=https
+2018-04-23T15:38:43.893597+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=b53ec1ea-d137-474c-a3e1-9d3c54c5787a fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=https
+2018-04-23T15:38:44.143809+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=4d7931d2-971b-4f82-a68c-677a515b5380 fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=https
+2018-04-23T15:38:44.777643+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=a7665b0b-f7e2-40fc-8ad9-ee56070ab2ed fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=http
+2018-04-23T15:41:04.358408+00:00 heroku[router]: at=error code=H10 desc="App crashed" method=GET path="/" host=lit-brushlands-65118.herokuapp.com request_id=37e03c62-7c44-4d81-9533-a3f0bac5edc6 fwd="103.78.148.36" dyno= connect= service= status=503 bytes= protocol=https
