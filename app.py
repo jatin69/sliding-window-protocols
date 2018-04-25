@@ -227,7 +227,7 @@ def index():
 
 # ################################# Main function #####################################
 
-import socket
+import socket,os
 
 # Start the app : dev mode
 if __name__ == '__main__':
@@ -235,13 +235,13 @@ if __name__ == '__main__':
     Event : Start the server
     Task  : Keep the server running, debugging ON in dev mode
     """
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(('0.0.0.0', 0))
-    newport = sock.getsockname()[1]
-    sock.close()
+    # sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    # sock.bind(('0.0.0.0', 0))
+    # newport = sock.getsockname()[1]
+    # sock.close()
 
     # portis = 5000
-    portis = newport
+    portis = os.environ.get('PORT')
     # portis = 80
     print(portis)
     socketio.run(app, port= portis, debug=True)
