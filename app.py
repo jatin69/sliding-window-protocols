@@ -236,13 +236,13 @@ if __name__ == '__main__':
     Task  : Keep the server running, debugging ON in dev mode
     """
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.bind(('localhost', 0))
+    sock.bind(('0.0.0.0', 0))
     newport = sock.getsockname()[1]
     sock.close()
 
     # portis = 5000
-    # portis = newport
-    portis = 80
+    portis = newport
+    # portis = 80
     print(portis)
     socketio.run(app, port= portis, debug=True)
 
