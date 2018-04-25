@@ -241,7 +241,7 @@ if __name__ == '__main__':
     # sock.close()
 
     # portis = 5000
-    portis = os.environ.get('PORT')
+    portis = int(os.environ.get('PORT'))
     # portis = 80
     print(portis)
     socketio.run(app, port= portis, debug=True)
