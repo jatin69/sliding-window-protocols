@@ -244,7 +244,7 @@ if __name__ == '__main__':
     portis = int(os.environ.get('PORT'))
     # portis = 80
     print(portis)
-    socketio.run(app, port= portis, debug=True)
+    socketio.run(app, host= "0.0.0.0", port= portis, debug=True)
 
 # ###################################################################################
 
