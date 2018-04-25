@@ -246,7 +246,7 @@
                   */
                 start_time = new Date().getTime();
                 socket.emit("HeyPing");
-            }, 1000);
+            }, 10000);
 
             socket.on("HeyPong", function () {
                 /*
