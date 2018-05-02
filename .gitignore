@@ -2,6 +2,4 @@ references/
 templates/testSkeleton.html
 static/Skeleton-2.0.4/
 node_modules/
-package-lock.json
-static/bootstrap-4.0.0-dist/
 .idea/
