@@ -5,16 +5,23 @@
 Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
 
 ## new advancements
-- sliding window works for gobackN and selective repeat.
-- output as expected for base test cases. logs attached.
-- might need more time for complex manual test cases. - later
-- all good. quick UI revamp and ready.
+
+* sliding window works for gobackN and selective repeat.
+* output as expected for base test cases. logs attached.
+* might need more time for complex manual test cases. - later
+* all good. quick UI revamp and ready.
 
 ## quick todo
 
-* heroku deployment - aim
+* [x] shift google font to online version to remove mixed content error
+* [x] unipage deployment to heroku
+
+  * merge all three with namespaces and serve in `app.py`
+  * test local, test heroku local and deploy
+
+* [x] heroku deployment - aim
 * good UX / UI to see the logs
-  * font done
+  * [x] font done
   * But design needs rework.
 
 ## General Implementations
@@ -61,7 +68,7 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 
 * ~~this current approach won't work~~ approach now updated
 * the session handling is too weak right now - still weak
-* [X] need to implement sliding window in REAL - done
+* [x] need to implement sliding window in REAL - done
 * ~~that might lead to the update of stop and wait, but that's another case~~ - nope
 * [failure log](./example_logs/failed-selective-repeat-1.txt)
 * still weak, but handles cases well. [success log](./example_logs/success-selective-repeat.txt)

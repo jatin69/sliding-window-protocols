@@ -141,9 +141,10 @@
 
             // ========================  Establish Connection with Socket IO =============================
 
+            namespace = '/selective-repeat';
             // create a socket with localhost and port 5000
             var socket = io.connect(
-                location.protocol + "//" + document.domain + ":" + location.port
+                location.protocol + "//" + document.domain + ":" + location.port + namespace
             );
 
             socket.on("connect", function () {

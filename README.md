@@ -2,16 +2,9 @@
 
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO/tree/master/example)
+Standard Networking Protocols using [flask socketIO](https://github.com/miguelgrinberg/Flask-SocketIO)
 
 For more details, refer the [detailed readme](./README-detailed.md)
-
-## Todo
-
-* [x] shift google font to online version to remove mixed content error
-* [ ] unipage deployment to heroku
-  * merge all three with namespaces and serve in `app.py`
-  * test local, test heroku local and deploy
 
 ## How to run
 
@@ -21,11 +14,12 @@ For more details, refer the [detailed readme](./README-detailed.md)
 * install requirements from `requirements.txt` or pip lock file
 * run `python app.py` and navigate to `localhost:5000` in browser
 * disable debugging in `app.py` if you don't want messages in terminal
-* similarly, run `stop-and-wait.py`, `go-back-N.py`, and `selective-repeat.py`
+* The `master` branch contains merged app
+* If you're interested in separate app for all three protocols, visit the [individual-release branch](https://github.com/jatin69/mca204-networks/tree/individual-release)
 
 ## How to deploy
 
-* refer [heroku docs](https://devcenter.heroku.com/articles/getting-started-with-python#introduction)  for more info
+* refer [heroku docs](https://devcenter.heroku.com/articles/getting-started-with-python#introduction) for more info
 * `git add .` to stage everything
 * `git status` to verify
 * `git commit -m "Committing changes"`
@@ -33,10 +27,14 @@ For more details, refer the [detailed readme](./README-detailed.md)
 * `heroku login`
 * `heroku create <unique-app-name>`
 * `git push heroku master`
-* `heroku ps:scale web=1` to scale a dyno 
+* `heroku ps:scale web=1` to scale a dyno
 * `heroku open` to see the app
 
 ## Screenshots
+
+### Welcome Page
+
+![Welcome Page](./screenshots/index.png)
 
 ### Stop and Wait
 
