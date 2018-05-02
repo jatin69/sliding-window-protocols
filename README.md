@@ -23,6 +23,19 @@ For more details, refer the [detailed readme](./README-detailed.md)
 * disable debugging in `app.py` if you don't want messages in terminal
 * similarly, run `stop-and-wait.py`, `go-back-N.py`, and `selective-repeat.py`
 
+## How to deploy
+
+* refer [heroku docs](https://devcenter.heroku.com/articles/getting-started-with-python#introduction)  for more info
+* `git add .` to stage everything
+* `git status` to verify
+* `git commit -m "Committing changes"`
+* `git push`
+* `heroku login`
+* `heroku create <unique-app-name>`
+* `git push heroku master`
+* `heroku ps:scale web=1` to scale a dyno 
+* `heroku open` to see the app
+
 ## Screenshots
 
 ### Stop and Wait
