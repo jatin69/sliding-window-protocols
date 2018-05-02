@@ -128,10 +128,10 @@ def saw_handling_packet_at_middle_layer_backend(message):
     Task : provide some visual delay
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('SendPacketToMiddleLayerFrontend', {
          'data': message['data'], 'currentPacket': message['currentPacket']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('PackedCrashedAtMiddleLayer', namespace='/stop-and-wait')
@@ -163,10 +163,10 @@ def saw_handling_ack_at_middle_layer_backend(message):
     Task : packet successfully received. Increment the ackNumber to be sent
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('sendAckToMiddleLayerFrontend', {
          'data': message['data'], 'currentAck': message['currentAck']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('AckCrashedAtMiddleLayer', namespace='/stop-and-wait')
@@ -309,8 +309,8 @@ def gbn_handling_packet_at_sender_backend_in_burst_mode(message):
         gbn_handling_packet_at_sender_backend({
             'currentPacketNumber' : packetNumber
         })
-        # time.sleep(.02)
-        time.sleep(.2)
+        # time.sleep(.05)
+        time.sleep(.05)
 
 
 @socketio.on('sendPacketToSenderBackend', namespace='/go-back-N')
@@ -370,10 +370,10 @@ def gbn_handling_packet_at_middle_layer_backend(message):
     Task : provide some visual delay
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('SendPacketToMiddleLayerFrontend', {
         'data': message['data'], 'currentPacket': message['currentPacket']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('PackedCrashedAtMiddleLayer', namespace='/go-back-N')
@@ -417,12 +417,12 @@ def gbn_handling_ack_at_middle_layer_backend(message):
     Task : packet successfully received. Increment the ackNumber to be sent
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('sendAckToMiddleLayerFrontend', {
         'data': message['data'],
         'currentPacket' : message['currentPacket'],
          'currentAck': message['currentAck']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('AckCrashedAtMiddleLayer', namespace='/go-back-N')
@@ -599,7 +599,7 @@ def sr_handling_packet_at_sender_backend_in_burst_mode(message):
         sr_handling_packet_at_sender_backend({
             'currentPacketNumber' : packetNumber
         })
-        time.sleep(.02)
+        time.sleep(.05)
 
 
 @socketio.on('sendPacketToSenderBackend', namespace='/selective-repeat')
@@ -660,10 +660,10 @@ def sr_handling_packet_at_middle_layer_backend(message):
     Task : provide some visual delay
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('SendPacketToMiddleLayerFrontend', {
         'data': message['data'], 'currentPacket': message['currentPacket']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('PackedCrashedAtMiddleLayer', namespace='/selective-repeat')
@@ -698,12 +698,12 @@ def sr_handling_ack_at_middle_layer_backend(message):
     Task : packet successfully received. Increment the ackNumber to be sent
     To   : Middle layer frontend
     """
-    time.sleep(.1)
+    time.sleep(.05)
     emit('sendAckToMiddleLayerFrontend', {
         'data': message['data'],
         'currentPacket' : message['currentPacket'],
          'currentAck': message['currentAck']})
-    time.sleep(.1)
+    time.sleep(.05)
 
 
 @socketio.on('AckCrashedAtMiddleLayer', namespace='/selective-repeat')
