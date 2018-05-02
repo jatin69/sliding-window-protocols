@@ -6,6 +6,13 @@ Standard Networking Protocols using [flask socketIO](https://github.com/miguelgr
 
 For more details, refer the [detailed readme](./README-detailed.md)
 
+## Todo
+
+* [x] shift google font to online version to remove mixed content error
+* [ ] unipage deployment to heroku
+  * merge all three with namespaces and serve in `app.py`
+  * test local, test heroku local and deploy
+
 ## How to run
 
 * git clone the repo and navigate to directory
@@ -19,10 +26,13 @@ For more details, refer the [detailed readme](./README-detailed.md)
 ## Screenshots
 
 ### Stop and Wait
+
 ![Stop and Wait](./screenshots/stop-and-wait.png)
 
 ### Go Back N
+
 ![Go Back N](./screenshots/go-back-N.png)
 
 ### Selective Repeat
+
 ![Selective Repeat](./screenshots/selective-repeat.png)
